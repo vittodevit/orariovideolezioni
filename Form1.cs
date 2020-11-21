@@ -18,7 +18,6 @@ namespace OrarioVideolezioni
     {
         GestoreDatabase db = new GestoreDatabase();
         Funzioni func = new Funzioni();
-        
         public Form1()
         {
             InitializeComponent();
@@ -43,32 +42,8 @@ namespace OrarioVideolezioni
         private void refresh()
         {
             DataTable originedati = db.getTabella();
-            //tabella = new DataGridView();
             tabella.DataSource = originedati;
-            //agg pulsante di rimozione
-            DataGridViewButtonColumn colRimuovi = new DataGridViewButtonColumn();
-            colRimuovi.Name = "Rimuovi";
-            colRimuovi.Text = "Rimuovi";
-            if (tabella.Columns["Rimuovi"] == null)
-            {
-                tabella.Columns.Insert(5, colRimuovi);
-            }
-            colRimuovi.UseColumnTextForButtonValue = true;
             tabella.AutoResizeColumns();
-        }
-
-        private void tabella_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            foreach (DataGridViewRow dr in tabella.Rows)
-            {
-                if(dr.Index == e.RowIndex)
-                {
-                    if(e.ColumnIndex == 4)
-                    {
-                        apriLink(dr.Cells[4].Value.ToString());
-                    }
-                }
-            }
         }
 
         private void tabella_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -77,12 +52,9 @@ namespace OrarioVideolezioni
             {
                 if (dr.Index == e.RowIndex)
                 {
-                    if (e.ColumnIndex == 5)
+                    if (e.ColumnIndex == 4)
                     {
-                        db.rimuoviRiga(
-                                Int32.Parse(dr.Cells[0].Value.ToString())
-                            );
-                        refresh();
+                        apriLink(dr.Cells[4].Value.ToString());
                     }
                 }
             }
@@ -106,7 +78,5 @@ namespace OrarioVideolezioni
                 }
             }
         }
-
-        
     }
 }

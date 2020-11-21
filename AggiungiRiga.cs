@@ -30,7 +30,21 @@ namespace OrarioVideolezioni
         private void aggiungi(object sender, EventArgs e)
         {
             //sanitize input
-
+            if(func.convertiGiorno(giornoSettimana_txt.Text) == "ERR")
+            {
+                errore("Giorno della settimana non valido!");
+                return;
+            }
+            if(link_txt.Text == "" | link_txt.Text.Length <= 7)
+            {
+                errore("Link non valido!");
+                return;
+            }
+            if (link_txt.Text.Substring(0, 4) != "http")
+            {
+                errore("Link non valido!");
+                return;
+            }
             db.aggiungiRiga(
                     func.convertiGiorno(giornoSettimana_txt.Text),
                     func.calcolaIntervalloSecondi(
@@ -41,7 +55,13 @@ namespace OrarioVideolezioni
                         Decimal.ToInt32(fineMinuti_nm.Value)),
                     link_txt.Text
                 );
+            this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void errore(string e)
+        {
+            MessageBox.Show(e, "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }
