@@ -1,0 +1,14 @@
+C:\Users\Vittorio Lo Mele\source\repos\OrarioVideolezioni\bin\Debug\OrarioVideolezioni.exe.config
+C:\Users\Vittorio Lo Mele\source\repos\OrarioVideolezioni\bin\Debug\OrarioVideolezioni.exe
+C:\Users\Vittorio Lo Mele\source\repos\OrarioVideolezioni\bin\Debug\OrarioVideolezioni.pdb
+C:\Users\Vittorio Lo Mele\source\repos\OrarioVideolezioni\obj\Debug\OrarioVideolezioni.csprojAssemblyReference.cache
+C:\Users\Vittorio Lo Mele\source\repos\OrarioVideolezioni\obj\Debug\OrarioVideolezioni.Form1.resources
+C:\Users\Vittorio Lo Mele\source\repos\OrarioVideolezioni\obj\Debug\OrarioVideolezioni.Properties.Resources.resources
+C:\Users\Vittorio Lo Mele\source\repos\OrarioVideolezioni\obj\Debug\OrarioVideolezioni.csproj.GenerateResource.cache
+C:\Users\Vittorio Lo Mele\source\repos\OrarioVideolezioni\obj\Debug\OrarioVideolezioni.csproj.CoreCompileInputs.cache
+C:\Users\Vittorio Lo Mele\source\repos\OrarioVideolezioni\obj\Debug\OrarioVideolezioni.csproj.CopyComplete
+C:\Users\Vittorio Lo Mele\source\repos\OrarioVideolezioni\obj\Debug\OrarioVideolezioni.exe
+C:\Users\Vittorio Lo Mele\source\repos\OrarioVideolezioni\obj\Debug\OrarioVideolezioni.pdb
+C:\Users\Vittorio Lo Mele\source\repos\OrarioVideolezioni\obj\Debug\OrarioVideolezioni.AggiungiRiga.resources
+C:\Users\Vittorio Lo Mele\source\repos\OrarioVideolezioni\bin\Debug\System.Data.SQLite.dll
+C:\Users\Vittorio Lo Mele\source\repos\OrarioVideolezioni\bin\Debug\System.Data.SQLite.xml
