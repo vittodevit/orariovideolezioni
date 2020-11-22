@@ -11,6 +11,7 @@ and limitations under the License.
 using System.IO;
 using System.Data;
 using System.Data.SQLite;
+using System.Collections.Generic;
 
 namespace OrarioVideolezioni
 {
@@ -48,49 +49,75 @@ namespace OrarioVideolezioni
                 var comandoInitTabelle = database.CreateCommand();
                 //inizializza database con file di init
                 string comando =
-                    @"BEGIN TRANSACTION;
+                    @"BEGIN TRANSACTION;                  
 
                     CREATE TABLE IF NOT EXISTS orario(
                         Id integer PRIMARY KEY,
                         GiornoSettimana text,
                         IntervalloInizio integer,
                         IntervalloFine integer,
+                        Materia text,
                         Link text);
+
+                    CREATE TABLE IF NOT EXISTS materie(
+                        Id integer PRIMARY KEY,
+                        NomeMateria text,
+                        NomeProf text);
 
                     COMMIT;
                     ";
                 comandoInitTabelle.CommandText = comando;
                 comandoInitTabelle.ExecuteNonQuery();
                 database.Close();
-            }catch(SQLiteException e)
+            }catch(SQLiteException)
             {
                 return 1;
             }
             return 0;
         }
 
-        public int aggiungiRiga(string giorno, int inizio, int fine, string link)
+        public bool aggiungiRiga(string giorno, int inizio, int fine, string materia, string link)
         {
             var comandoInserisci = database.CreateCommand();
             comandoInserisci.CommandText =
-                "INSERT INTO orario(GiornoSettimana, IntervalloInizio, IntervalloFine, Link)VALUES($giorno, $inizio, $fine, $link);";
+                "INSERT INTO orario(GiornoSettimana, IntervalloInizio, IntervalloFine, Materia, Link)VALUES($giorno, $inizio, $fine, $materia, $link);";
             comandoInserisci.Parameters.AddWithValue("$giorno", giorno);
             comandoInserisci.Parameters.AddWithValue("$inizio", inizio);
             comandoInserisci.Parameters.AddWithValue("$fine", fine);
+            comandoInserisci.Parameters.AddWithValue("$materia", materia);
             comandoInserisci.Parameters.AddWithValue("$link", link);
             try
             {
                 database.Open();
                 comandoInserisci.ExecuteNonQuery();
                 database.Close();
-            }catch(SQLiteException e)
+            }catch(SQLiteException)
             {
-                return 1;
+                return false;
             }
-            return 0;
+            return true;
         }
 
-        public int rimuoviRiga(int id)
+        public bool aggRigaMateria(string nomemat, string nomeprof)
+        {
+            var comandoInserisciMat = database.CreateCommand();
+            comandoInserisciMat.CommandText = "INSERT INTO materie(NomeMateria, NomeProf) VALUES ($nomemateria, $nomeprof);";
+            comandoInserisciMat.Parameters.AddWithValue("$nomemateria", nomemat);
+            comandoInserisciMat.Parameters.AddWithValue("$nomeprof", nomeprof);
+            try
+            {
+                database.Open();
+                comandoInserisciMat.ExecuteNonQuery();
+                database.Close();
+            }
+            catch (SQLiteException)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool rimuoviRiga(int id)
         {
             var comandoRimuovi = database.CreateCommand();
             comandoRimuovi.CommandText = "DELETE FROM orario WHERE Id = $id";
@@ -100,11 +127,29 @@ namespace OrarioVideolezioni
                 database.Open();
                 comandoRimuovi.ExecuteNonQuery();
                 database.Close();
-            }catch(SQLiteException e)
+            }catch(SQLiteException)
             {
-                return 1;
+                return false;
             }
-            return 0;
+            return true;
+        }
+
+        public bool rimRigaMateria(int id)
+        {
+            var comandoRimuoviMat = database.CreateCommand();
+            comandoRimuoviMat.CommandText = "DELETE FROM materie WHERE Id = $id";
+            comandoRimuoviMat.Parameters.AddWithValue("$id", id);
+            try
+            {
+                database.Open();
+                comandoRimuoviMat.ExecuteNonQuery();
+                database.Close();
+            }
+            catch (SQLiteException)
+            {
+                return false;
+            }
+            return true;
         }
 
         public DataTable getTabella()
@@ -114,13 +159,13 @@ namespace OrarioVideolezioni
             dt.Columns.Add(new DataColumn("Giorno", typeof(string)));
             dt.Columns.Add(new DataColumn("Ora Inizio", typeof(string)));
             dt.Columns.Add(new DataColumn("Ora Fine", typeof(string)));
+            dt.Columns.Add(new DataColumn("Materia", typeof(string)));
             dt.Columns.Add(new DataColumn("Link", typeof(string)));
+            var cmd = database.CreateCommand();
+            cmd.CommandText = "SELECT * FROM orario;";
             try
             {
-                SQLiteCommand cmd;
                 database.Open();
-                cmd = database.CreateCommand();
-                cmd.CommandText = "SELECT * FROM orario;";
                 DataRow dr;
                 using(var leggi = cmd.ExecuteReader())
                 {
@@ -132,16 +177,75 @@ namespace OrarioVideolezioni
                         dr[2] = func.secondiAdUmano(leggi.GetInt32(2));
                         dr[3] = func.secondiAdUmano(leggi.GetInt32(3));
                         dr[4] = leggi.GetString(4);
+                        dr[5] = leggi.GetString(5);
                         dt.Rows.Add(dr);
                     }
                 }
             }
-            catch (SQLiteException e)
+            catch (SQLiteException)
             {
                 //catch eccezione
             }
             database.Close();
             return dt;
+        }
+        
+        public DataTable getListaMaterie()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new DataColumn("ID", typeof(int)));
+            dt.Columns.Add(new DataColumn("Nome Materia", typeof(string)));
+            dt.Columns.Add(new DataColumn("Nome Professore", typeof(string)));
+            var cmd = database.CreateCommand();
+            cmd.CommandText = "SELECT * FROM materie;";
+            try
+            {
+                database.Open();
+                DataRow dr;
+                using(var leggi = cmd.ExecuteReader())
+                {
+                    while (leggi.Read())
+                    {
+                        dr = dt.NewRow();
+                        dr[0] = leggi.GetInt32(0);
+                        dr[1] = leggi.GetString(1);
+                        dr[2] = leggi.GetString(2);
+                        dt.Rows.Add(dr);
+                    }
+                }
+            }
+            catch (SQLiteException)
+            {
+                
+            }
+            database.Close();
+            return dt;
+        }
+
+        public List<string> getListaMaterieCombo()
+        {
+            List<string> listaMatCombo = new List<string>();
+            var cmd = database.CreateCommand();
+            cmd.CommandText = "SELECT * FROM materie;";
+            try
+            {
+                database.Open();
+                string buf;
+                using (var leggi = cmd.ExecuteReader())
+                {
+                    while (leggi.Read())
+                    {
+                        buf = leggi.GetString(1) + " (" + leggi.GetString(2) + ")";
+                        listaMatCombo.Add(buf);
+                    }
+                }
+            }
+            catch (SQLiteException)
+            {
+
+            }
+            database.Close();
+            return listaMatCombo;
         }
     
     }

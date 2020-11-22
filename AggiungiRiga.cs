@@ -22,6 +22,14 @@ namespace OrarioVideolezioni
             InitializeComponent();
         }
 
+        private void AggiungiRiga_Load(object sender, EventArgs e)
+        {
+            foreach(string elemento in db.getListaMaterieCombo())
+            {
+                materia_txt.Items.Add(elemento);
+            }
+        }
+
         private void chiudiFinestra(object sender, EventArgs e)
         {
             this.Close();
@@ -30,30 +38,26 @@ namespace OrarioVideolezioni
         private void aggiungi(object sender, EventArgs e)
         {
             //sanitize input
-            if(func.convertiGiorno(giornoSettimana_txt.Text) == "ERR")
-            {
-                errore("Giorno della settimana non valido!");
-                return;
-            }
-            if(link_txt.Text == "" | link_txt.Text.Length <= 7)
+            if(link_txt.Text == "" | link_txt.Text.Length <= 4)
             {
                 errore("Link non valido!");
                 return;
             }
-            if (link_txt.Text.Substring(0, 4) != "http")
-            {
-                errore("Link non valido!");
-                return;
-            }
+            string linkOk = linkPrefix_txt.Text + link_txt.Text;
+            string inizioOra = inizio_dtp.Value.ToString("HH");
+            string inizioMinuti = inizio_dtp.Value.ToString("mm");
+            string fineOra = fine_dtp.Value.ToString("HH");
+            string fineMinuti = fine_dtp.Value.ToString("mm");
             db.aggiungiRiga(
                     func.convertiGiorno(giornoSettimana_txt.Text),
                     func.calcolaIntervalloSecondi(
-                        Decimal.ToInt32(inizioOra_nm.Value),
-                        Decimal.ToInt32(inizioMinuti_nm.Value)),
+                        Int32.Parse(inizioOra),
+                        Int32.Parse(inizioMinuti)),
                     func.calcolaIntervalloSecondi(
-                        Decimal.ToInt32(fineOra_nm.Value),
-                        Decimal.ToInt32(fineMinuti_nm.Value)),
-                    link_txt.Text
+                        Int32.Parse(fineOra),
+                        Int32.Parse(fineMinuti)),
+                    materia_txt.Text,
+                    linkOk
                 );
             this.DialogResult = DialogResult.OK;
             this.Close();
@@ -63,5 +67,6 @@ namespace OrarioVideolezioni
         {
             MessageBox.Show(e, "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+        
     }
 }

@@ -23,6 +23,11 @@ namespace OrarioVideolezioni
             InitializeComponent();
         }
 
+        private void errore(string e)
+        {
+            MessageBox.Show(e, "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
         private void finestraCaricata(object sender, EventArgs e)
         {
             //inizializzazione delle cartelle e file
@@ -41,8 +46,7 @@ namespace OrarioVideolezioni
 
         private void refresh()
         {
-            DataTable originedati = db.getTabella();
-            tabella.DataSource = originedati;
+            tabella.DataSource = db.getTabella();
             tabella.AutoResizeColumns();
         }
 
@@ -77,6 +81,33 @@ namespace OrarioVideolezioni
                         "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void rimuoviRigaSelezionata_click(object sender, EventArgs e)
+        {
+            try
+            {
+                int indiceRiga = tabella.CurrentCell.RowIndex;
+                DataGridViewRow riga = tabella.Rows[indiceRiga];
+                int id = Int32.Parse(riga.Cells[0].Value.ToString());
+                db.rimuoviRiga(id);
+                refresh();
+            }catch (Exception)
+            {
+                errore("Nessuna riga selezionata");
+            }
+        }
+
+        private void ricaricabtn_click(object sender, EventArgs e)
+        {
+            refresh();
+        }
+
+        private void gestisciMaterieToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GestioneMaterie form = new GestioneMaterie();
+            form.ShowDialog();
+            refresh();
         }
     }
 }

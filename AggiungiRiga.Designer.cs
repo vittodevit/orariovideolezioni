@@ -34,23 +34,19 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.inizioOra_nm = new System.Windows.Forms.NumericUpDown();
-            this.inizioMinuti_nm = new System.Windows.Forms.NumericUpDown();
-            this.fineMinuti_nm = new System.Windows.Forms.NumericUpDown();
-            this.fineOra_nm = new System.Windows.Forms.NumericUpDown();
             this.link_txt = new System.Windows.Forms.TextBox();
             this.annullaBtn = new System.Windows.Forms.Button();
             this.aggiungiBtn = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.inizioOra_nm)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.inizioMinuti_nm)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.fineMinuti_nm)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.fineOra_nm)).BeginInit();
+            this.label7 = new System.Windows.Forms.Label();
+            this.materia_txt = new System.Windows.Forms.ComboBox();
+            this.linkPrefix_txt = new System.Windows.Forms.ComboBox();
+            this.inizio_dtp = new System.Windows.Forms.DateTimePicker();
+            this.fine_dtp = new System.Windows.Forms.DateTimePicker();
             this.SuspendLayout();
             // 
             // giornoSettimana_txt
             // 
+            this.giornoSettimana_txt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.giornoSettimana_txt.FormattingEnabled = true;
             this.giornoSettimana_txt.Items.AddRange(new object[] {
             "Lunedì",
@@ -101,64 +97,16 @@
             this.label5.TabIndex = 4;
             this.label5.Text = "Link:";
             // 
-            // inizioOra_nm
-            // 
-            this.inizioOra_nm.Location = new System.Drawing.Point(132, 39);
-            this.inizioOra_nm.Maximum = new decimal(new int[] {
-            23,
-            0,
-            0,
-            0});
-            this.inizioOra_nm.Name = "inizioOra_nm";
-            this.inizioOra_nm.Size = new System.Drawing.Size(51, 20);
-            this.inizioOra_nm.TabIndex = 5;
-            // 
-            // inizioMinuti_nm
-            // 
-            this.inizioMinuti_nm.Location = new System.Drawing.Point(202, 39);
-            this.inizioMinuti_nm.Maximum = new decimal(new int[] {
-            59,
-            0,
-            0,
-            0});
-            this.inizioMinuti_nm.Name = "inizioMinuti_nm";
-            this.inizioMinuti_nm.Size = new System.Drawing.Size(51, 20);
-            this.inizioMinuti_nm.TabIndex = 6;
-            // 
-            // fineMinuti_nm
-            // 
-            this.fineMinuti_nm.Location = new System.Drawing.Point(202, 65);
-            this.fineMinuti_nm.Maximum = new decimal(new int[] {
-            59,
-            0,
-            0,
-            0});
-            this.fineMinuti_nm.Name = "fineMinuti_nm";
-            this.fineMinuti_nm.Size = new System.Drawing.Size(51, 20);
-            this.fineMinuti_nm.TabIndex = 8;
-            // 
-            // fineOra_nm
-            // 
-            this.fineOra_nm.Location = new System.Drawing.Point(132, 65);
-            this.fineOra_nm.Maximum = new decimal(new int[] {
-            23,
-            0,
-            0,
-            0});
-            this.fineOra_nm.Name = "fineOra_nm";
-            this.fineOra_nm.Size = new System.Drawing.Size(51, 20);
-            this.fineOra_nm.TabIndex = 7;
-            // 
             // link_txt
             // 
-            this.link_txt.Location = new System.Drawing.Point(132, 91);
+            this.link_txt.Location = new System.Drawing.Point(205, 91);
             this.link_txt.Name = "link_txt";
-            this.link_txt.Size = new System.Drawing.Size(254, 20);
+            this.link_txt.Size = new System.Drawing.Size(181, 20);
             this.link_txt.TabIndex = 9;
             // 
             // annullaBtn
             // 
-            this.annullaBtn.Location = new System.Drawing.Point(230, 117);
+            this.annullaBtn.Location = new System.Drawing.Point(230, 144);
             this.annullaBtn.Name = "annullaBtn";
             this.annullaBtn.Size = new System.Drawing.Size(75, 23);
             this.annullaBtn.TabIndex = 10;
@@ -168,7 +116,7 @@
             // 
             // aggiungiBtn
             // 
-            this.aggiungiBtn.Location = new System.Drawing.Point(311, 117);
+            this.aggiungiBtn.Location = new System.Drawing.Point(311, 144);
             this.aggiungiBtn.Name = "aggiungiBtn";
             this.aggiungiBtn.Size = new System.Drawing.Size(75, 23);
             this.aggiungiBtn.TabIndex = 11;
@@ -176,40 +124,72 @@
             this.aggiungiBtn.UseVisualStyleBackColor = true;
             this.aggiungiBtn.Click += new System.EventHandler(this.aggiungi);
             // 
-            // label2
+            // label7
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(185, 37);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(14, 20);
-            this.label2.TabIndex = 12;
-            this.label2.Text = ":";
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(12, 120);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(45, 13);
+            this.label7.TabIndex = 15;
+            this.label7.Text = "Materia:";
             // 
-            // label6
+            // materia_txt
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(185, 63);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(14, 20);
-            this.label6.TabIndex = 13;
-            this.label6.Text = ":";
+            this.materia_txt.FormattingEnabled = true;
+            this.materia_txt.Location = new System.Drawing.Point(132, 117);
+            this.materia_txt.Name = "materia_txt";
+            this.materia_txt.Size = new System.Drawing.Size(254, 21);
+            this.materia_txt.TabIndex = 14;
+            // 
+            // linkPrefix_txt
+            // 
+            this.linkPrefix_txt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.linkPrefix_txt.FormattingEnabled = true;
+            this.linkPrefix_txt.Items.AddRange(new object[] {
+            "http://",
+            "https://"});
+            this.linkPrefix_txt.Location = new System.Drawing.Point(132, 90);
+            this.linkPrefix_txt.Name = "linkPrefix_txt";
+            this.linkPrefix_txt.Size = new System.Drawing.Size(67, 21);
+            this.linkPrefix_txt.TabIndex = 16;
+            // 
+            // inizio_dtp
+            // 
+            this.inizio_dtp.Cursor = System.Windows.Forms.Cursors.Default;
+            this.inizio_dtp.CustomFormat = "HH:mm";
+            this.inizio_dtp.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.inizio_dtp.Location = new System.Drawing.Point(132, 39);
+            this.inizio_dtp.Name = "inizio_dtp";
+            this.inizio_dtp.ShowUpDown = true;
+            this.inizio_dtp.Size = new System.Drawing.Size(254, 20);
+            this.inizio_dtp.TabIndex = 17;
+            this.inizio_dtp.Value = new System.DateTime(2020, 11, 22, 0, 0, 0, 0);
+            // 
+            // fine_dtp
+            // 
+            this.fine_dtp.Cursor = System.Windows.Forms.Cursors.Default;
+            this.fine_dtp.CustomFormat = "HH:mm";
+            this.fine_dtp.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.fine_dtp.Location = new System.Drawing.Point(132, 64);
+            this.fine_dtp.Name = "fine_dtp";
+            this.fine_dtp.ShowUpDown = true;
+            this.fine_dtp.Size = new System.Drawing.Size(254, 20);
+            this.fine_dtp.TabIndex = 18;
+            this.fine_dtp.Value = new System.DateTime(2020, 11, 22, 0, 0, 0, 0);
             // 
             // AggiungiRiga
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(395, 150);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label2);
+            this.ClientSize = new System.Drawing.Size(395, 178);
+            this.Controls.Add(this.fine_dtp);
+            this.Controls.Add(this.inizio_dtp);
+            this.Controls.Add(this.linkPrefix_txt);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.materia_txt);
             this.Controls.Add(this.aggiungiBtn);
             this.Controls.Add(this.annullaBtn);
             this.Controls.Add(this.link_txt);
-            this.Controls.Add(this.fineMinuti_nm);
-            this.Controls.Add(this.fineOra_nm);
-            this.Controls.Add(this.inizioMinuti_nm);
-            this.Controls.Add(this.inizioOra_nm);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -221,10 +201,7 @@
             this.MinimizeBox = false;
             this.Name = "AggiungiRiga";
             this.Text = "Aggiungi Riga";
-            ((System.ComponentModel.ISupportInitialize)(this.inizioOra_nm)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.inizioMinuti_nm)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.fineMinuti_nm)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.fineOra_nm)).EndInit();
+            this.Load += new System.EventHandler(this.AggiungiRiga_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -237,14 +214,13 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.NumericUpDown inizioOra_nm;
-        private System.Windows.Forms.NumericUpDown inizioMinuti_nm;
-        private System.Windows.Forms.NumericUpDown fineMinuti_nm;
-        private System.Windows.Forms.NumericUpDown fineOra_nm;
         private System.Windows.Forms.TextBox link_txt;
         private System.Windows.Forms.Button annullaBtn;
         private System.Windows.Forms.Button aggiungiBtn;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ComboBox materia_txt;
+        private System.Windows.Forms.ComboBox linkPrefix_txt;
+        private System.Windows.Forms.DateTimePicker inizio_dtp;
+        private System.Windows.Forms.DateTimePicker fine_dtp;
     }
 }
