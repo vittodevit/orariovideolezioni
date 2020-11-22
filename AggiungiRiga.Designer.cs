@@ -42,6 +42,7 @@
             this.linkPrefix_txt = new System.Windows.Forms.ComboBox();
             this.inizio_dtp = new System.Windows.Forms.DateTimePicker();
             this.fine_dtp = new System.Windows.Forms.DateTimePicker();
+            this.closeOnAdd = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // giornoSettimana_txt
@@ -110,7 +111,7 @@
             this.annullaBtn.Name = "annullaBtn";
             this.annullaBtn.Size = new System.Drawing.Size(75, 23);
             this.annullaBtn.TabIndex = 10;
-            this.annullaBtn.Text = "Annulla";
+            this.annullaBtn.Text = "Esci";
             this.annullaBtn.UseVisualStyleBackColor = true;
             this.annullaBtn.Click += new System.EventHandler(this.chiudiFinestra);
             // 
@@ -135,6 +136,7 @@
             // 
             // materia_txt
             // 
+            this.materia_txt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.materia_txt.FormattingEnabled = true;
             this.materia_txt.Location = new System.Drawing.Point(132, 117);
             this.materia_txt.Name = "materia_txt";
@@ -177,11 +179,24 @@
             this.fine_dtp.TabIndex = 18;
             this.fine_dtp.Value = new System.DateTime(2020, 11, 22, 0, 0, 0, 0);
             // 
+            // closeOnAdd
+            // 
+            this.closeOnAdd.AutoSize = true;
+            this.closeOnAdd.Checked = true;
+            this.closeOnAdd.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.closeOnAdd.Location = new System.Drawing.Point(15, 148);
+            this.closeOnAdd.Name = "closeOnAdd";
+            this.closeOnAdd.Size = new System.Drawing.Size(126, 17);
+            this.closeOnAdd.TabIndex = 19;
+            this.closeOnAdd.Text = "Chiudi dopo aggiunta";
+            this.closeOnAdd.UseVisualStyleBackColor = true;
+            // 
             // AggiungiRiga
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(395, 178);
+            this.Controls.Add(this.closeOnAdd);
             this.Controls.Add(this.fine_dtp);
             this.Controls.Add(this.inizio_dtp);
             this.Controls.Add(this.linkPrefix_txt);
@@ -222,5 +237,6 @@
         private System.Windows.Forms.ComboBox linkPrefix_txt;
         private System.Windows.Forms.DateTimePicker inizio_dtp;
         private System.Windows.Forms.DateTimePicker fine_dtp;
+        private System.Windows.Forms.CheckBox closeOnAdd;
     }
 }

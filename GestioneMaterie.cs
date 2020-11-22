@@ -12,7 +12,7 @@ namespace OrarioVideolezioni
 {
     public partial class GestioneMaterie : Form
     {
-        GestoreDatabase db = new GestoreDatabase();
+        GestoreDatabase db = new GestoreDatabase("", true);
         Funzioni func = new Funzioni();
         public GestioneMaterie()
         {
@@ -44,6 +44,8 @@ namespace OrarioVideolezioni
                     errore("Errore interno del database");
                 }
                 refresh();
+                nomeMat.Text = "";
+                nomeProf.Text = "";
             }
             else
             {
@@ -68,6 +70,12 @@ namespace OrarioVideolezioni
             {
                 errore("Nessuna riga selezionata");
             }
+        }
+
+        private void esci(object sender, EventArgs e)
+        {
+            db.forceClose();
+            this.Close();
         }
     }
 }

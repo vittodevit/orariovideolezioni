@@ -16,9 +16,12 @@ namespace OrarioVideolezioni
     public partial class AggiungiRiga : Form
     {
         Funzioni func = new Funzioni();
-        GestoreDatabase db = new GestoreDatabase();
-        public AggiungiRiga()
+        GestoreDatabase db = new GestoreDatabase("", true);
+        private Form1 _formpadre;
+        public AggiungiRiga(Form1 fp)
         {
+            if (fp == null) throw new NullReferenceException("Non puoi chiamare questo form da null");
+            _formpadre = fp;
             InitializeComponent();
         }
 
@@ -32,13 +35,19 @@ namespace OrarioVideolezioni
 
         private void chiudiFinestra(object sender, EventArgs e)
         {
+            db.forceClose();
             this.Close();
         }
 
         private void aggiungi(object sender, EventArgs e)
         {
             //sanitize input
-            if(link_txt.Text == "" | link_txt.Text.Length <= 4)
+            if(giornoSettimana_txt.Text == "")
+            {
+                errore("Specifica un giorno della settimana!");
+                return;
+            }
+            if(link_txt.Text.Length <= 4 | linkPrefix_txt.Text == "")
             {
                 errore("Link non valido!");
                 return;
@@ -48,24 +57,53 @@ namespace OrarioVideolezioni
             string inizioMinuti = inizio_dtp.Value.ToString("mm");
             string fineOra = fine_dtp.Value.ToString("HH");
             string fineMinuti = fine_dtp.Value.ToString("mm");
-            db.aggiungiRiga(
-                    func.convertiGiorno(giornoSettimana_txt.Text),
-                    func.calcolaIntervalloSecondi(
+            int intervalloInizio = func.calcolaIntervalloSecondi(
                         Int32.Parse(inizioOra),
-                        Int32.Parse(inizioMinuti)),
-                    func.calcolaIntervalloSecondi(
+                        Int32.Parse(inizioMinuti));
+            int intervalloFine = func.calcolaIntervalloSecondi(
                         Int32.Parse(fineOra),
-                        Int32.Parse(fineMinuti)),
+                        Int32.Parse(fineMinuti));
+            if(intervalloFine <= intervalloInizio)
+            {
+                errore("L'orario di fine non può essere minore o uguale a quello d'inizio!");
+                return;
+            }
+            bool r = db.aggiungiRiga(
+                    func.convertiGiorno(giornoSettimana_txt.Text),
+                    intervalloInizio,
+                    intervalloFine,
                     materia_txt.Text,
                     linkOk
                 );
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            if (!r)
+            {
+                errore("Errore interno del database!");
+            }
+            else
+            {
+                _formpadre.refresh();
+                clear();
+                if (closeOnAdd.Checked)
+                {
+                    db.forceClose();
+                    this.Close();
+                }
+            }
         }
 
         private void errore(string e)
         {
             MessageBox.Show(e, "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void clear()
+        {
+            giornoSettimana_txt.Text = "";
+            linkPrefix_txt.Text = "";
+            link_txt.Text = "";
+            materia_txt.Text = "";
+            inizio_dtp.Value = new DateTime(2020, 11, 22);
+            fine_dtp.Value = new DateTime(2020, 11, 22);
         }
         
     }

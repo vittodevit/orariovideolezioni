@@ -12,6 +12,8 @@ using System.IO;
 using System.Data;
 using System.Data.SQLite;
 using System.Collections.Generic;
+using System.Windows.Forms;
+using System;
 
 namespace OrarioVideolezioni
 {
@@ -19,30 +21,68 @@ namespace OrarioVideolezioni
     {
         private SQLiteConnection database;
         private Funzioni func = new Funzioni();
-        public GestoreDatabase(string percorsoalternativo = "")
+        private string percorsoDB;
+        public GestoreDatabase(string percorsoalternativo = "", bool preinit = false)
         {
-            string percorsoDB;
             string percorsoAppdata = func.getPercorsoAppdata();
 
             if(percorsoalternativo != "")
             {
-                percorsoDB = percorsoalternativo;
+                percorsoDB = Path.Combine(percorsoAppdata, percorsoalternativo);
             }
             else
             {
                 percorsoDB = Path.Combine(percorsoAppdata, "orario.db");
             }
 
-            database = new SQLiteConnection(
-                "Data Source=" +
-                percorsoDB
-            ); //new=false impedisce di ricreare il database, di conseguenza perdendo tutte le tabelle.
+            if (preinit)
+            {
+                database = new SQLiteConnection("Data Source=" + percorsoDB);
+            }
         }
         
-        
+        public string getPercorsoFileDatabase()
+        {
+            return percorsoDB;
+        }
+
+        public void forceClose()
+        {
+            database.Close();
+            database.Dispose();
+            SQLiteConnection.ClearAllPools();
+        }
 
         public int initDatabase()
         {
+            database = new SQLiteConnection("Data Source=" + percorsoDB);
+            var check = database.CreateCommand();
+            check.CommandText = "pragma quick_check";
+            try
+            {
+                //codice di test database
+                database.Open();
+                check.ExecuteNonQuery();
+                database.Close();
+            }
+            catch (SQLiteException)
+            {
+                var res = MessageBox.Show("File di database corrotto o non valido! Eliminare il database esistente per ricrearlo?",
+                    "Errore Critico", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+                if (res == DialogResult.Yes)
+                {
+                    forceClose();
+                    File.Delete(percorsoDB);
+                    database = new SQLiteConnection("Data Source=" + percorsoDB);
+                }
+                else
+                {
+                    forceClose();
+                    Environment.FailFast("Il file database non è valido!"); //termina immediatamente
+                    //System.Windows.Forms.Application.Exit();
+                }
+            }
+
             try
             {
                 database.Open();
@@ -68,11 +108,12 @@ namespace OrarioVideolezioni
                     ";
                 comandoInitTabelle.CommandText = comando;
                 comandoInitTabelle.ExecuteNonQuery();
-                database.Close();
             }catch(SQLiteException)
             {
+                database.Close();
                 return 1;
             }
+            database.Close();
             return 0;
         }
 
@@ -247,6 +288,39 @@ namespace OrarioVideolezioni
             database.Close();
             return listaMatCombo;
         }
-    
+
+        public string[] trovaLinkAttivo()
+        {
+            string[] buf;
+            var cmd = database.CreateCommand();
+            cmd.CommandText = "SELECT Materia, Link FROM orario WHERE GiornoSettimana = $giorno AND IntervalloInizio <= $ct AND IntervalloFine > $ct";
+            string giorno = func.dtToDatabaseFormat(DateTime.Today.DayOfWeek);
+            int ct = func.calcolaIntervalloSecondi(DateTime.Now.Hour, DateTime.Now.Minute);
+            cmd.Parameters.AddWithValue("$giorno", giorno);
+            cmd.Parameters.AddWithValue("$ct", ct);
+            try
+            {
+                database.Open();
+                var leggi = cmd.ExecuteReader();
+                leggi.Read();
+                try
+                {
+                    buf = new string[] {
+                        leggi.GetString(0),
+                        leggi.GetString(1)
+                    };
+                }
+                catch(InvalidOperationException)
+                {
+                    buf = new string[] {null, null};
+                }
+            }
+            catch (SQLiteException)
+            {
+                buf = new string[] {null, null};
+            }
+            database.Close();
+            return buf;
+        }
     }
 }

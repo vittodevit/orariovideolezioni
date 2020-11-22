@@ -18,6 +18,7 @@ namespace OrarioVideolezioni
     {
         GestoreDatabase db = new GestoreDatabase();
         Funzioni func = new Funzioni();
+        private string lastOpened = "";
         public Form1()
         {
             InitializeComponent();
@@ -35,16 +36,17 @@ namespace OrarioVideolezioni
             db.initDatabase();
             //refresh tabella
             refresh();
+            refresher.Start();
         }
 
         private void apriFinestraAggRiga(object sender, EventArgs e)
         {
-            AggiungiRiga formriga = new AggiungiRiga();
+            AggiungiRiga formriga = new AggiungiRiga(this);
             formriga.ShowDialog();
             refresh();
         }
 
-        private void refresh()
+        public void refresh()
         {
             tabella.DataSource = db.getTabella();
             tabella.AutoResizeColumns();
@@ -56,19 +58,28 @@ namespace OrarioVideolezioni
             {
                 if (dr.Index == e.RowIndex)
                 {
-                    if (e.ColumnIndex == 4)
+                    if (e.ColumnIndex == 5)
                     {
-                        apriLink(dr.Cells[4].Value.ToString());
+                        apriLink(dr.Cells[5].Value.ToString(), dr.Cells[4].Value.ToString());
                     }
                 }
             }
         }
 
-        private void apriLink(string link)
+        private void apriLink(string link, string nome)
         {
-            var res = MessageBox.Show(
-                "Vuoi aprire il link '" + link + "' adesso?", 
+            lastOpened = link;
+            DialogResult res;
+            if(!confermaOpenCk.Checked)
+            {
+                res = MessageBox.Show(
+                "Vuoi aprire il link di " + nome + " -> '" + link + "' adesso?",
                 "Conferma", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            }
+            else
+            {
+                res = DialogResult.Yes;
+            }
             if(res == DialogResult.Yes)
             {
                 try
@@ -108,6 +119,77 @@ namespace OrarioVideolezioni
             GestioneMaterie form = new GestioneMaterie();
             form.ShowDialog();
             refresh();
+        }
+
+        private void informazioniSullapplicazioneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            infoapp infoapp = new infoapp();
+            infoapp.ShowDialog();
+        }
+
+        private void paginaGitHubToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/mrBackSlash-it/orariovideolezioni");
+        }
+
+        private void esciToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void esportaDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var res = salvadb.ShowDialog();
+            if(res == DialogResult.OK)
+            {
+                System.IO.File.Copy(
+                    db.getPercorsoFileDatabase(),
+                    salvadb.FileName
+                    );
+            }
+        }
+
+        private void importaDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var res = importadb.ShowDialog();
+            if(res == DialogResult.OK)
+            {
+                db.forceClose();
+                //System.IO.File.Delete(db.getPercorsoFileDatabase());
+                System.IO.File.Copy(
+                    importadb.FileName,
+                    db.getPercorsoFileDatabase(),
+                    true
+                    );
+                db = new GestoreDatabase();
+                db.initDatabase();
+                refresh();
+            }
+        }
+
+        private void apriLink_btn_Click(object sender, EventArgs e)
+        {
+            string[] par = db.trovaLinkAttivo();
+            if(par[0] != null)
+            {
+                apriLink(par[1], par[0]);
+            }
+            else
+            {
+                MessageBox.Show("Nessun link trovato per l'ora corrente", "Orario Videolezioni", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }      
+        }
+
+        private void refresher_Tick(object sender, EventArgs e)
+        {
+            if (autostart_check.Checked)
+            {
+                string[] par = db.trovaLinkAttivo();
+                if (par[0] != null && par[1] != lastOpened)
+                {
+                    apriLink(par[1], par[0]);
+                }
+            }
         }
     }
 }

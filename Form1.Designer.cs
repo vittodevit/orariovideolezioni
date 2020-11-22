@@ -38,6 +38,7 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importaDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.esportaDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.esciToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.orarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aggiungiRigaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rimuoviRigaSelezToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,6 +47,11 @@
             this.informazioniSullapplicazioneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.paginaGitHubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ricaricabtn = new System.Windows.Forms.Button();
+            this.salvadb = new System.Windows.Forms.SaveFileDialog();
+            this.importadb = new System.Windows.Forms.OpenFileDialog();
+            this.confermaOpenCk = new System.Windows.Forms.CheckBox();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.tabella)).BeginInit();
             this.menuprincipale.SuspendLayout();
             this.SuspendLayout();
@@ -61,7 +67,7 @@
             this.tabella.Location = new System.Drawing.Point(12, 27);
             this.tabella.Name = "tabella";
             this.tabella.ReadOnly = true;
-            this.tabella.Size = new System.Drawing.Size(615, 563);
+            this.tabella.Size = new System.Drawing.Size(933, 515);
             this.tabella.TabIndex = 0;
             this.tabella.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tabella_CellContentClick);
             // 
@@ -69,27 +75,29 @@
             // 
             this.apriLink_btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.apriLink_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.apriLink_btn.Location = new System.Drawing.Point(13, 597);
+            this.apriLink_btn.Location = new System.Drawing.Point(13, 549);
             this.apriLink_btn.Name = "apriLink_btn";
             this.apriLink_btn.Size = new System.Drawing.Size(130, 23);
             this.apriLink_btn.TabIndex = 1;
             this.apriLink_btn.Text = "APRI LINK ATTIVO";
             this.apriLink_btn.UseVisualStyleBackColor = true;
+            this.apriLink_btn.Click += new System.EventHandler(this.apriLink_btn_Click);
             // 
             // autostart_check
             // 
             this.autostart_check.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.autostart_check.AutoSize = true;
-            this.autostart_check.Location = new System.Drawing.Point(149, 601);
+            this.autostart_check.Location = new System.Drawing.Point(156, 553);
             this.autostart_check.Name = "autostart_check";
-            this.autostart_check.Size = new System.Drawing.Size(139, 17);
+            this.autostart_check.Size = new System.Drawing.Size(129, 17);
             this.autostart_check.TabIndex = 5;
-            this.autostart_check.Text = "APRI IN AUTOMATICO";
+            this.autostart_check.Text = "Apri link in automatico";
             this.autostart_check.UseVisualStyleBackColor = true;
             // 
             // refresher
             // 
-            this.refresher.Interval = 10000;
+            this.refresher.Interval = 5000;
+            this.refresher.Tick += new System.EventHandler(this.refresher_Tick);
             // 
             // menuprincipale
             // 
@@ -99,7 +107,7 @@
             this.toolStripMenuItem1});
             this.menuprincipale.Location = new System.Drawing.Point(0, 0);
             this.menuprincipale.Name = "menuprincipale";
-            this.menuprincipale.Size = new System.Drawing.Size(640, 24);
+            this.menuprincipale.Size = new System.Drawing.Size(958, 24);
             this.menuprincipale.TabIndex = 7;
             this.menuprincipale.Text = "menuStrip1";
             // 
@@ -107,7 +115,9 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.importaDatabaseToolStripMenuItem,
-            this.esportaDatabaseToolStripMenuItem});
+            this.esportaDatabaseToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.esciToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -115,20 +125,30 @@
             // importaDatabaseToolStripMenuItem
             // 
             this.importaDatabaseToolStripMenuItem.Name = "importaDatabaseToolStripMenuItem";
-            this.importaDatabaseToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
-            this.importaDatabaseToolStripMenuItem.Text = "Importa database";
+            this.importaDatabaseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.importaDatabaseToolStripMenuItem.Text = "Apri Database";
+            this.importaDatabaseToolStripMenuItem.Click += new System.EventHandler(this.importaDatabaseToolStripMenuItem_Click);
             // 
             // esportaDatabaseToolStripMenuItem
             // 
             this.esportaDatabaseToolStripMenuItem.Name = "esportaDatabaseToolStripMenuItem";
-            this.esportaDatabaseToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
-            this.esportaDatabaseToolStripMenuItem.Text = "Esporta database";
+            this.esportaDatabaseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.esportaDatabaseToolStripMenuItem.Text = "Salva Database";
+            this.esportaDatabaseToolStripMenuItem.Click += new System.EventHandler(this.esportaDatabaseToolStripMenuItem_Click);
+            // 
+            // esciToolStripMenuItem
+            // 
+            this.esciToolStripMenuItem.Name = "esciToolStripMenuItem";
+            this.esciToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.esciToolStripMenuItem.Text = "Esci";
+            this.esciToolStripMenuItem.Click += new System.EventHandler(this.esciToolStripMenuItem_Click);
             // 
             // orarioToolStripMenuItem
             // 
             this.orarioToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aggiungiRigaToolStripMenuItem,
             this.rimuoviRigaSelezToolStripMenuItem,
+            this.toolStripSeparator2,
             this.gestisciMaterieToolStripMenuItem});
             this.orarioToolStripMenuItem.Name = "orarioToolStripMenuItem";
             this.orarioToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
@@ -169,16 +189,19 @@
             this.informazioniSullapplicazioneToolStripMenuItem.Name = "informazioniSullapplicazioneToolStripMenuItem";
             this.informazioniSullapplicazioneToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
             this.informazioniSullapplicazioneToolStripMenuItem.Text = "Informazioni sull\'applicazione";
+            this.informazioniSullapplicazioneToolStripMenuItem.Click += new System.EventHandler(this.informazioniSullapplicazioneToolStripMenuItem_Click);
             // 
             // paginaGitHubToolStripMenuItem
             // 
             this.paginaGitHubToolStripMenuItem.Name = "paginaGitHubToolStripMenuItem";
             this.paginaGitHubToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
             this.paginaGitHubToolStripMenuItem.Text = "Pagina GitHub";
+            this.paginaGitHubToolStripMenuItem.Click += new System.EventHandler(this.paginaGitHubToolStripMenuItem_Click);
             // 
             // ricaricabtn
             // 
-            this.ricaricabtn.Location = new System.Drawing.Point(552, 597);
+            this.ricaricabtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ricaricabtn.Location = new System.Drawing.Point(870, 549);
             this.ricaricabtn.Name = "ricaricabtn";
             this.ricaricabtn.Size = new System.Drawing.Size(75, 23);
             this.ricaricabtn.TabIndex = 8;
@@ -186,11 +209,44 @@
             this.ricaricabtn.UseVisualStyleBackColor = true;
             this.ricaricabtn.Click += new System.EventHandler(this.ricaricabtn_click);
             // 
+            // salvadb
+            // 
+            this.salvadb.FileName = "database.db";
+            this.salvadb.Filter = "File di Database|*.db";
+            this.salvadb.Title = "Esportazione database...";
+            // 
+            // importadb
+            // 
+            this.importadb.Filter = "File di Database|*.db";
+            this.importadb.Title = "Importazione database...";
+            // 
+            // confermaOpenCk
+            // 
+            this.confermaOpenCk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.confermaOpenCk.AutoSize = true;
+            this.confermaOpenCk.Location = new System.Drawing.Point(291, 553);
+            this.confermaOpenCk.Name = "confermaOpenCk";
+            this.confermaOpenCk.Size = new System.Drawing.Size(216, 17);
+            this.confermaOpenCk.TabIndex = 9;
+            this.confermaOpenCk.Text = "Non chiedere conferma per apertura link";
+            this.confermaOpenCk.UseVisualStyleBackColor = true;
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(203, 6);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(640, 630);
+            this.ClientSize = new System.Drawing.Size(958, 582);
+            this.Controls.Add(this.confermaOpenCk);
             this.Controls.Add(this.ricaricabtn);
             this.Controls.Add(this.autostart_check);
             this.Controls.Add(this.apriLink_btn);
@@ -198,6 +254,7 @@
             this.Controls.Add(this.menuprincipale);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuprincipale;
+            this.MinimumSize = new System.Drawing.Size(392, 299);
             this.Name = "Form1";
             this.Text = "Orario Videolezioni";
             this.Load += new System.EventHandler(this.finestraCaricata);
@@ -227,6 +284,12 @@
         private System.Windows.Forms.ToolStripMenuItem informazioniSullapplicazioneToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem paginaGitHubToolStripMenuItem;
         private System.Windows.Forms.Button ricaricabtn;
+        private System.Windows.Forms.ToolStripMenuItem esciToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog salvadb;
+        private System.Windows.Forms.OpenFileDialog importadb;
+        private System.Windows.Forms.CheckBox confermaOpenCk;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }
 

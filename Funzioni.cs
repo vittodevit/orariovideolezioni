@@ -108,6 +108,39 @@ namespace OrarioVideolezioni
             return risultato;
         }
 
+        public string dtToDatabaseFormat(DayOfWeek giorno)
+        {
+            string risultato;
+            switch (giorno)
+            {
+                case DayOfWeek.Monday:
+                    risultato = "LUN";
+                    break;
+                case DayOfWeek.Tuesday:
+                    risultato = "MAR";
+                    break;
+                case DayOfWeek.Wednesday:
+                    risultato = "MER";
+                    break;
+                case DayOfWeek.Thursday:
+                    risultato = "GIO";
+                    break;
+                case DayOfWeek.Friday:
+                    risultato = "VEN";
+                    break;
+                case DayOfWeek.Saturday:
+                    risultato = "SAB";
+                    break;
+                case DayOfWeek.Sunday:
+                    risultato = "DOM";
+                    break;
+                default:
+                    risultato = "ERR";
+                    break;
+            }
+            return risultato;
+        }
+
         public string secondiAdUmano(int secondi)
         {
             int ore, minuti;

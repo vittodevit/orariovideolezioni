@@ -37,6 +37,7 @@
             this.nomeProf = new System.Windows.Forms.TextBox();
             this.remmat_btn = new System.Windows.Forms.Button();
             this.tabellamaterie = new System.Windows.Forms.DataGridView();
+            this.escibtn = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tabellamaterie)).BeginInit();
             this.SuspendLayout();
@@ -74,12 +75,12 @@
             this.groupBox1.Controls.Add(this.nomeProf);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.nomeMat);
-            this.groupBox1.Location = new System.Drawing.Point(414, 12);
+            this.groupBox1.Location = new System.Drawing.Point(333, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(162, 130);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Aggiunta";
+            this.groupBox1.Text = "Aggiungi Materia";
             // 
             // label2
             // 
@@ -99,9 +100,9 @@
             // 
             // remmat_btn
             // 
-            this.remmat_btn.Location = new System.Drawing.Point(414, 148);
+            this.remmat_btn.Location = new System.Drawing.Point(342, 148);
             this.remmat_btn.Name = "remmat_btn";
-            this.remmat_btn.Size = new System.Drawing.Size(162, 23);
+            this.remmat_btn.Size = new System.Drawing.Size(147, 23);
             this.remmat_btn.TabIndex = 7;
             this.remmat_btn.Text = "Rimuovi materia selezionata";
             this.remmat_btn.UseVisualStyleBackColor = true;
@@ -115,14 +116,25 @@
             this.tabellamaterie.Location = new System.Drawing.Point(12, 12);
             this.tabellamaterie.Name = "tabellamaterie";
             this.tabellamaterie.ReadOnly = true;
-            this.tabellamaterie.Size = new System.Drawing.Size(396, 159);
+            this.tabellamaterie.Size = new System.Drawing.Size(315, 245);
             this.tabellamaterie.TabIndex = 8;
+            // 
+            // escibtn
+            // 
+            this.escibtn.Location = new System.Drawing.Point(432, 234);
+            this.escibtn.Name = "escibtn";
+            this.escibtn.Size = new System.Drawing.Size(63, 23);
+            this.escibtn.TabIndex = 9;
+            this.escibtn.Text = "Esci";
+            this.escibtn.UseVisualStyleBackColor = true;
+            this.escibtn.Click += new System.EventHandler(this.esci);
             // 
             // GestioneMaterie
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(588, 187);
+            this.ClientSize = new System.Drawing.Size(507, 269);
+            this.Controls.Add(this.escibtn);
             this.Controls.Add(this.tabellamaterie);
             this.Controls.Add(this.remmat_btn);
             this.Controls.Add(this.groupBox1);
@@ -149,5 +161,6 @@
         private System.Windows.Forms.TextBox nomeProf;
         private System.Windows.Forms.Button remmat_btn;
         private System.Windows.Forms.DataGridView tabellamaterie;
+        private System.Windows.Forms.Button escibtn;
     }
 }
