@@ -1,8 +1,8 @@
 # OrarioVideolezioni   
 Gestisce l'orario per le videolezioni ed apre automaticamente e non i link    
 
-## PER SEGNALARE BUG CREA UNA RICHIESTA NELLA TAB SOPRA: "Issues"
-## Se non avete un account di github contattatemi via mail a vittorio@mrbackslash.it e tenterò di sistemarlo al più presto.
+### PER SEGNALARE BUG CREA UNA RICHIESTA NELLA TAB SOPRA: "Issues"
+### Se non avete un account di github contattatemi via mail a vittorio@mrbackslash.it e tenterò di sistemarlo al più presto.
 
 ## Funzioni:
 - Gestisce l'orario delle videolezioni con una comoda tabella
