@@ -38,10 +38,12 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importaDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.esportaDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.esciToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.orarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aggiungiRigaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rimuoviRigaSelezToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.gestisciMaterieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.informazioniSullapplicazioneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,8 +52,6 @@
             this.salvadb = new System.Windows.Forms.SaveFileDialog();
             this.importadb = new System.Windows.Forms.OpenFileDialog();
             this.confermaOpenCk = new System.Windows.Forms.CheckBox();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.tabella)).BeginInit();
             this.menuprincipale.SuspendLayout();
             this.SuspendLayout();
@@ -93,6 +93,7 @@
             this.autostart_check.TabIndex = 5;
             this.autostart_check.Text = "Apri link in automatico";
             this.autostart_check.UseVisualStyleBackColor = true;
+            this.autostart_check.CheckedChanged += new System.EventHandler(this.autostart_check_CheckedChanged);
             // 
             // refresher
             // 
@@ -125,21 +126,26 @@
             // importaDatabaseToolStripMenuItem
             // 
             this.importaDatabaseToolStripMenuItem.Name = "importaDatabaseToolStripMenuItem";
-            this.importaDatabaseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.importaDatabaseToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.importaDatabaseToolStripMenuItem.Text = "Apri Database";
             this.importaDatabaseToolStripMenuItem.Click += new System.EventHandler(this.importaDatabaseToolStripMenuItem_Click);
             // 
             // esportaDatabaseToolStripMenuItem
             // 
             this.esportaDatabaseToolStripMenuItem.Name = "esportaDatabaseToolStripMenuItem";
-            this.esportaDatabaseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.esportaDatabaseToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.esportaDatabaseToolStripMenuItem.Text = "Salva Database";
             this.esportaDatabaseToolStripMenuItem.Click += new System.EventHandler(this.esportaDatabaseToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // esciToolStripMenuItem
             // 
             this.esciToolStripMenuItem.Name = "esciToolStripMenuItem";
-            this.esciToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.esciToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.esciToolStripMenuItem.Text = "Esci";
             this.esciToolStripMenuItem.Click += new System.EventHandler(this.esciToolStripMenuItem_Click);
             // 
@@ -167,6 +173,11 @@
             this.rimuoviRigaSelezToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.rimuoviRigaSelezToolStripMenuItem.Text = "Rimuovi Riga Selezionata";
             this.rimuoviRigaSelezToolStripMenuItem.Click += new System.EventHandler(this.rimuoviRigaSelezionata_click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(203, 6);
             // 
             // gestisciMaterieToolStripMenuItem
             // 
@@ -230,16 +241,6 @@
             this.confermaOpenCk.TabIndex = 9;
             this.confermaOpenCk.Text = "Non chiedere conferma per apertura link";
             this.confermaOpenCk.UseVisualStyleBackColor = true;
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(203, 6);
             // 
             // Form1
             // 

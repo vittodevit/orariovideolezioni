@@ -29,11 +29,13 @@ namespace OrarioVideolezioni
             return percorsoAppdata;
         }
 
+        //crea la cartella "OrarioVideolezioni" in %AppData% se non esiste
         public void initAppdataFolder()
         {
             Directory.CreateDirectory(percorsoAppdata);
         }
 
+        //calcola il valore in secondi di un orario immesso
         public int calcolaIntervalloSecondi(int ore, int minuti)
         {
             int minasec = minuti * 60;
@@ -41,6 +43,7 @@ namespace OrarioVideolezioni
             return minasec + oreasec;
         }
 
+        //converte un giorno da formato Esteso a contratto (per il db) e viceversa
         public string convertiGiorno(string giorno, bool inverti = false)
         {
             string risultato = "";
@@ -108,6 +111,8 @@ namespace OrarioVideolezioni
             return risultato;
         }
 
+        //converte il giorno della settimana dal datatype DayOfWeek in una stringa...
+        //...in formato contratto per il DB
         public string dtToDatabaseFormat(DayOfWeek giorno)
         {
             string risultato;
@@ -141,13 +146,17 @@ namespace OrarioVideolezioni
             return risultato;
         }
 
+        //converte il valore in secondi in una stringa leggibile da un umano
         public string secondiAdUmano(int secondi)
         {
             int ore, minuti;
             string oreS, minutiS;
-            minuti = secondi / 60;
-            ore = minuti / 60;
-            minuti = minuti % 60;
+            minuti = secondi / 60; //calcola i minuti rimanenti
+            ore = minuti / 60; //calcola le ore rimanenti
+            minuti = minuti % 60; //assegna a minuti il modulo (resto divisione)...
+            //...di se stesso per lasciare solo i minuti rimanenti
+
+            //se il valore di ore è minore di 10 aggiunge uno zero per adattarsi al formato 24 ore
             if (ore < 10)
             {
                 oreS = "0" + ore.ToString();
@@ -156,6 +165,7 @@ namespace OrarioVideolezioni
             {
                 oreS = ore.ToString();
             }
+            //stessa cosa per i minuti
             if (minuti < 10)
             {
                 minutiS = "0" + minuti.ToString();
@@ -164,6 +174,7 @@ namespace OrarioVideolezioni
             {
                 minutiS = minuti.ToString();
             }
+            //combina le due stringhe con i due punti e ritorna
             string s = oreS + ":" + minutiS;
             return s;
         }

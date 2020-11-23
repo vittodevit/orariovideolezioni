@@ -10,20 +10,22 @@ and limitations under the License.
 */
 using System;
 using System.Windows.Forms;
-using System.Data;
 
 namespace OrarioVideolezioni
 {
     public partial class Form1 : Form
     {
-        GestoreDatabase db = new GestoreDatabase();
-        Funzioni func = new Funzioni();
-        private string lastOpened = "";
+        GestoreDatabase db = new GestoreDatabase(); //ogg. database
+        Funzioni func = new Funzioni(); //ogg. classe funz.
+        private int lastOpened = 0; //indica l'ID dell'ultima richiesta di apertura link
+        public bool inswap = false; //indica se si stanno effettuando operazioni esterne sul database
+
         public Form1()
         {
             InitializeComponent();
         }
 
+        //visualizza box di errore
         private void errore(string e)
         {
             MessageBox.Show(e, "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -33,14 +35,18 @@ namespace OrarioVideolezioni
         {
             //inizializzazione delle cartelle e file
             func.initAppdataFolder();
-            db.initDatabase();
-            //refresh tabella
-            refresh();
-            refresher.Start();
+            if (!db.initDatabase())
+            {
+                //errore di init, chiudi app e mostra messaggio errore
+                errore("Inizializzazione del database fallita, l'applicazione verrà terminata adesso");
+                this.Close();
+            }
+            refresh();//refresh tabella
         }
 
         private void apriFinestraAggRiga(object sender, EventArgs e)
         {
+            //apertura form di aggiunta riga, in seguito refresha la tabella alla chiusura
             AggiungiRiga formriga = new AggiungiRiga(this);
             formriga.ShowDialog();
             refresh();
@@ -48,46 +54,61 @@ namespace OrarioVideolezioni
 
         public void refresh()
         {
+            //ottieni dati e ridimensiona automaticamente le colonne
             tabella.DataSource = db.getTabella();
             tabella.AutoResizeColumns();
         }
 
         private void tabella_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            //itera in tutte le righe della tabella fino a trovare la riga del click
             foreach (DataGridViewRow dr in tabella.Rows)
             {
+                //corrispondenza con arg. chiamata funzioni
                 if (dr.Index == e.RowIndex)
                 {
+                    //se la colonna è quella del link apri
                     if (e.ColumnIndex == 5)
                     {
-                        apriLink(dr.Cells[5].Value.ToString(), dr.Cells[4].Value.ToString());
+                        LinkAttivo nla = new LinkAttivo(dr.Cells[5].Value.ToString(), 
+                            dr.Cells[4].Value.ToString(),
+                            Int32.Parse(
+                                    dr.Cells[0].Value.ToString()
+                                )
+                            );
+                        apriLink(nla);
                     }
                 }
             }
         }
 
-        private void apriLink(string link, string nome)
+        private void apriLink(LinkAttivo la)
         {
-            lastOpened = link;
+            //ottieni l'id della richiesta ed imposta la variabile della classe
+            lastOpened = la.Id;
             DialogResult res;
+            //se la checkbox per non chiedere la conferma è disattivata apri il box di richiesta
             if(!confermaOpenCk.Checked)
             {
                 res = MessageBox.Show(
-                "Vuoi aprire il link di " + nome + " -> '" + link + "' adesso?",
+                "Vuoi aprire il link di " + la.NomeMat + " -> '" + la.Link + "' adesso?",
                 "Conferma", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             }
             else
             {
+                //assume che la risposta sia di SI (checkbox attivata)
                 res = DialogResult.Yes;
             }
             if(res == DialogResult.Yes)
             {
                 try
                 {
-                    System.Diagnostics.Process.Start(link);
+                    //prova ad aprire il link
+                    System.Diagnostics.Process.Start(la.Link);
                 }
                 catch (Exception e)
                 {
+                    //il link non è valido, mostra messaggio di errore
                     MessageBox.Show("Errore! Impossibile aprire il link: " + e.Message,
                         "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -98,17 +119,21 @@ namespace OrarioVideolezioni
         {
             try
             {
+                //prova ad individuare la riga selezionata
                 int indiceRiga = tabella.CurrentCell.RowIndex;
                 DataGridViewRow riga = tabella.Rows[indiceRiga];
+                //ottieni ID riga ed impartisci comando rimozione al database
                 int id = Int32.Parse(riga.Cells[0].Value.ToString());
                 db.rimuoviRiga(id);
                 refresh();
             }catch (Exception)
             {
+                //nessuna riga selezionata, mostra box di errore
                 errore("Nessuna riga selezionata");
             }
         }
 
+        //chiama funzione di ricarica quando il pulsante ricarica è premuto
         private void ricaricabtn_click(object sender, EventArgs e)
         {
             refresh();
@@ -116,80 +141,128 @@ namespace OrarioVideolezioni
 
         private void gestisciMaterieToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //apri form di gestione materie
             GestioneMaterie form = new GestioneMaterie();
             form.ShowDialog();
+            //alla chiusura ricarica la tabella
             refresh();
         }
 
         private void informazioniSullapplicazioneToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //apri infobox
             infoapp infoapp = new infoapp();
             infoapp.ShowDialog();
         }
 
         private void paginaGitHubToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //apri pag. github
             System.Diagnostics.Process.Start("https://github.com/mrBackSlash-it/orariovideolezioni");
         }
 
         private void esciToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //chiudi app al click di "esci" nel menù
             this.Close();
         }
 
+        //funz. di esportazione database
         private void esportaDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //setta la flag di swap su true per fermare temporaneamente le operazioni nel database
+            inswap = true;
+            //mostra finestra di salvataggio
             var res = salvadb.ShowDialog();
             if(res == DialogResult.OK)
             {
+                //se si preme ok, copia il file database da appdata alla cartella di destinazione
+                //scelta dall'utente
                 System.IO.File.Copy(
                     db.getPercorsoFileDatabase(),
                     salvadb.FileName
                     );
             }
+            //a fine operazione ripristina la flag per permettere le operazioni sul db
+            inswap = false;
         }
 
         private void importaDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //blocca le operazioni sul db
+            inswap = true;
             var res = importadb.ShowDialog();
             if(res == DialogResult.OK)
             {
+                //per l'importazione, chiudi tutte le connessioni della classe e...
+                //...libera tutte le risorse ed il pool, per liberare il file dal processo
                 db.forceClose();
-                //System.IO.File.Delete(db.getPercorsoFileDatabase());
+                //sovrascrivi il database con il file scelto dall'utente
                 System.IO.File.Copy(
                     importadb.FileName,
                     db.getPercorsoFileDatabase(),
                     true
                     );
+                //ricarica la classe, fai le prove di init e ricarica la tabella
                 db = new GestoreDatabase();
                 db.initDatabase();
                 refresh();
             }
+            //sblocca le operazioni sul db
+            inswap = false;
         }
 
         private void apriLink_btn_Click(object sender, EventArgs e)
         {
-            string[] par = db.trovaLinkAttivo();
-            if(par[0] != null)
+            //ottieni link attivo dal db
+            LinkAttivo la = db.trovaLinkAttivo();
+            //se 'la' non è null (c'è un link candidato per l'apertura' passa alla funzione
+            if (la != null && la.Id != lastOpened)
             {
-                apriLink(par[1], par[0]);
+                apriLink(la);
             }
             else
             {
+                //nessun link candidato per l'apertura
                 MessageBox.Show("Nessun link trovato per l'ora corrente", "Orario Videolezioni", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }      
         }
 
-        private void refresher_Tick(object sender, EventArgs e)
+        private void tickEvent()
         {
-            if (autostart_check.Checked)
+            //evento di check per link attivo (ogni 5000 msec), stesso funzionamento della funzione precedente
+            LinkAttivo la = db.trovaLinkAttivo();
+            if (la != null && la.Id != lastOpened)
             {
-                string[] par = db.trovaLinkAttivo();
-                if (par[0] != null && par[1] != lastOpened)
-                {
-                    apriLink(par[1], par[0]);
-                }
+                apriLink(la);
             }
         }
+
+        private void autostart_check_CheckedChanged(object sender, EventArgs e)
+        {
+            //evento di cambio checkbox "start automatico"
+            if (autostart_check.Checked)
+            {
+                //nel caso di attivazione fai partire immediatamente un evento di tick ed avvia il timer
+                tickEvent();
+                refresher.Start();
+            }
+            else
+            {
+                //stoppa il timer
+                refresher.Stop();
+            }
+        }
+
+        private void refresher_Tick(object sender, EventArgs e)
+        {
+            //se il database non è stato bloccato dalle operaz. di import / export passa il tick...
+            //...effettivo del timer alla funzione di tick
+            if (!inswap)
+            {
+                tickEvent();
+            }
+        }
+        
     }
 }

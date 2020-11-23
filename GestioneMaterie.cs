@@ -26,23 +26,28 @@ namespace OrarioVideolezioni
 
         private void GestioneMaterie_Load(object sender, EventArgs e)
         {
-            refresh();
+            refresh(); //all'apertura della finestra carica la tabella
         }
 
         private void refresh()
         {
+            //ottieni lista materie dal db e ridimensiona in auto le colonne
             tabellamaterie.DataSource = db.getListaMaterie();
             tabellamaterie.AutoResizeColumns();
         }
 
+        //alla pressione del pulsante di aggiunta materie
         private void aggmat_btn_Click(object sender, EventArgs e)
         {
+            //controlla che i campi non siano vuoti
             if(nomeMat.Text != "" && nomeProf.Text != "")
             {
+                //prova ad aggiungere la materia
                 if(!db.aggRigaMateria(nomeMat.Text,nomeProf.Text))
                 {
-                    errore("Errore interno del database");
+                    errore("Errore interno del database"); //box errore
                 }
+                //ricarica tabella e ripulisci campi per preparare nuova aggiunta
                 refresh();
                 nomeMat.Text = "";
                 nomeProf.Text = "";
@@ -53,18 +58,21 @@ namespace OrarioVideolezioni
             }
         }
 
+        //al click sul pulsante rimuovi materia
         private void remmat_btn_Click(object sender, EventArgs e)
         {
             try
             {
+                //trova id riga selezionata
                 int indiceRiga = tabellamaterie.CurrentCell.RowIndex;
                 DataGridViewRow riga = tabellamaterie.Rows[indiceRiga];
                 int id = Int32.Parse(riga.Cells[0].Value.ToString());
+                //invia al db comando di rimozione
                 if (!db.rimRigaMateria(id))
                 {
-                    errore("Errore interno del database");
+                    errore("Errore interno del database"); //box di errore
                 }
-                refresh();
+                refresh(); //ricarica tabella
             }
             catch (Exception)
             {
@@ -74,8 +82,8 @@ namespace OrarioVideolezioni
 
         private void esci(object sender, EventArgs e)
         {
-            db.forceClose();
-            this.Close();
+            db.forceClose(); //libera tutte le risorse per passare il libero controllo del file db al form padre
+            this.Close(); //chiudi finestra
         }
     }
 }
