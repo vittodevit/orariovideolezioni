@@ -19,5 +19,5 @@ Gestisce l'orario per le videolezioni ed apre automaticamente e non i link
 ## Come compilare:
 - Clona la repo
 - Apri nell'ultima versione di visual studio
-- Controlla che il gestore pacchetti ha installato le seguenti librerie `System.Data.SQLite.Core e Stub.System.Data.SQLite.Core.NetFrame'
+- Controlla se il gestore pacchetti ha installato le seguenti librerie: `System.Data.SQLite.Core e Stub.System.Data.SQLite.Core.NetFrame'
 - Compila ed esegui
