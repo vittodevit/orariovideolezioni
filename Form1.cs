@@ -240,7 +240,7 @@ namespace OrarioVideolezioni
             //refresha riga verde ora attiva tabella
             LinkAttivo la = db.trovaLinkAttivo();
             //refresha riga verde se non è stato già fatto
-            if (la.Id != lastTickIdCalled)
+            if (la != null && la.Id != lastTickIdCalled)
             {
                 aggiornaRigaVerde(la.Id);
             }
