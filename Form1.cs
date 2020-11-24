@@ -9,6 +9,7 @@ either express or implied. See the License for the specific language governing p
 and limitations under the License.
 */
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace OrarioVideolezioni
@@ -18,7 +19,9 @@ namespace OrarioVideolezioni
         GestoreDatabase db = new GestoreDatabase(); //ogg. database
         Funzioni func = new Funzioni(); //ogg. classe funz.
         private int lastOpened = 0; //indica l'ID dell'ultima richiesta di apertura link
-        public bool inswap = false; //indica se si stanno effettuando operazioni esterne sul database
+        private int lastTickIdCalled = 0; //ultimo id chiamato dal tick
+        private bool inswap = false; //indica se si stanno effettuando operazioni esterne sul database
+        private bool ac = false; //indica se l'autostart dei link è attivo
 
         public Form1()
         {
@@ -42,6 +45,8 @@ namespace OrarioVideolezioni
                 this.Close();
             }
             refresh();//refresh tabella
+            refresher.Start();
+            tickEvent(); //fa partire manualmente il primo tick per le operazioni di refresh riga verde e autolink
         }
 
         private void apriFinestraAggRiga(object sender, EventArgs e)
@@ -137,6 +142,7 @@ namespace OrarioVideolezioni
         private void ricaricabtn_click(object sender, EventArgs e)
         {
             refresh();
+            tickEvent();
         }
 
         private void gestisciMaterieToolStripMenuItem_Click(object sender, EventArgs e)
@@ -228,11 +234,23 @@ namespace OrarioVideolezioni
             }      
         }
 
-        private void tickEvent()
+        private void tickEvent(bool force = false)
         {
             //evento di check per link attivo (ogni 5000 msec), stesso funzionamento della funzione precedente
+            //refresha riga verde ora attiva tabella
             LinkAttivo la = db.trovaLinkAttivo();
-            if (la != null && la.Id != lastOpened)
+            //refresha riga verde se non è stato già fatto
+            if (la.Id != lastTickIdCalled)
+            {
+                aggiornaRigaVerde(la.Id);
+            }
+            if (force)
+            {
+                //se il bool force è attivo, forza il refresh della riga verde in tabella nonostante sia già stata disegnata
+                aggiornaRigaVerde(la.Id);
+            }
+            //apri link se c'è, se non è stato già aperto e se l'autostart è attivo
+            if (la != null && la.Id != lastOpened && ac == true)
             {
                 apriLink(la);
             }
@@ -243,14 +261,14 @@ namespace OrarioVideolezioni
             //evento di cambio checkbox "start automatico"
             if (autostart_check.Checked)
             {
-                //nel caso di attivazione fai partire immediatamente un evento di tick ed avvia il timer
+                //nel caso di attivazione fai partire immediatamente un evento di tick ed attiva autostart
+                ac = true;
                 tickEvent();
-                refresher.Start();
             }
             else
             {
-                //stoppa il timer
-                refresher.Stop();
+                //disattiva autostart
+                ac = false;
             }
         }
 
@@ -263,6 +281,36 @@ namespace OrarioVideolezioni
                 tickEvent();
             }
         }
-        
+
+        private void aggiornaRigaVerde(int id)
+        {
+            //aggiorna l'ultimo id chiamato dal tick
+            lastTickIdCalled = id;
+            //itera in tutte le righe della tabella
+            foreach (DataGridViewRow riga in tabella.Rows)
+            {
+                //controlla che il valore della cella 0 (l'id) corrisponda a quello...
+                //...specificato nella firma della funzione
+                if(Int32.Parse(riga.Cells[0].Value.ToString()) == id)
+                {
+                    //resetta il colore della riga precedente, ottenendo il rowindex dalla variabile riga
+                    foreach(DataGridViewColumn col in tabella.Columns)
+                    {
+                        col.DefaultCellStyle.BackColor = Color.Empty;
+                    }
+                    //colora la successiva
+                    for (int i = 0; i < 6; i++)
+                    {
+                        tabella.Rows[riga.Index].Cells[i].Style.BackColor = Color.LimeGreen;
+                    }
+                }
+            }
+        }
+
+        private void cambioSortColonna(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            //fai partire un tick per aggiornare la riga verde (il true forza l'aggiornamento)
+            tickEvent(true);
+        }
     }
 }

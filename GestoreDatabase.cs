@@ -244,7 +244,7 @@ namespace OrarioVideolezioni
                 //apro il database e creo un buffer riga 
                 database.Open();
                 DataRow dr;
-                //creo la variabile leggi come lettore risposte sql SQL
+                //creo la variabile leggi come lettore risposte SQL
                 using(var leggi = cmd.ExecuteReader())
                 {
                     //finchè non arrivo alla fine delle righe

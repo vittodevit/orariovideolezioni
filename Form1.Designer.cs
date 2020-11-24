@@ -70,6 +70,7 @@
             this.tabella.Size = new System.Drawing.Size(933, 515);
             this.tabella.TabIndex = 0;
             this.tabella.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tabella_CellContentClick);
+            this.tabella.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.cambioSortColonna);
             // 
             // apriLink_btn
             // 
