@@ -244,7 +244,7 @@ namespace OrarioVideolezioni
             {
                 aggiornaRigaVerde(la.Id);
             }
-            if (force)
+            if (la != null && force)
             {
                 //se il bool force è attivo, forza il refresh della riga verde in tabella nonostante sia già stata disegnata
                 aggiornaRigaVerde(la.Id);
