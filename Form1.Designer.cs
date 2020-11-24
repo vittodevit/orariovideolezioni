@@ -242,6 +242,7 @@
             this.confermaOpenCk.TabIndex = 9;
             this.confermaOpenCk.Text = "Non chiedere conferma per apertura link";
             this.confermaOpenCk.UseVisualStyleBackColor = true;
+            this.confermaOpenCk.CheckedChanged += new System.EventHandler(this.confermaOpenCk_CheckedChanged);
             // 
             // Form1
             // 

@@ -16,12 +16,22 @@ namespace OrarioVideolezioni
     class Funzioni
     {
         private string percorsoAppdata;
+        private string flagAutostart;
+        private string flagNoConf;
         public Funzioni()
         {
             percorsoAppdata = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                     "OrarioVideolezioni"
                 );//calcola percorso appdata dell'applicazione
+            flagAutostart = Path.Combine(
+                        percorsoAppdata,
+                        "autostart.flag"
+                    ); //calcola il percorso del file flag "autostart"
+            flagNoConf = Path.Combine(
+                        percorsoAppdata,
+                        "noconf.flag"
+                    ); //calcola il percorso del file flag "no conferma"
         }
 
         public string getPercorsoAppdata()
@@ -177,6 +187,60 @@ namespace OrarioVideolezioni
             //combina le due stringhe con i due punti e ritorna
             string s = oreS + ":" + minutiS;
             return s;
+        }
+
+        public void setImpostazioneAutostart(bool b)
+        {
+            if (b)
+            {
+                //crea file
+                if (!File.Exists(flagAutostart))
+                {
+                    var f = File.Create(flagAutostart);
+                    f.Close();
+                    f.Dispose();
+                }
+            }
+            else
+            {
+                //se il file esiste elimina
+                if (File.Exists(flagAutostart))
+                {
+                    File.Delete(flagAutostart);
+                }
+            }
+        }
+
+        public void setImpostazioneNoConf(bool b)
+        {
+            if (b)
+            {
+                //crea file
+                if (!File.Exists(flagNoConf))
+                {
+                    var f = File.Create(flagNoConf);
+                    f.Close();
+                    f.Dispose();
+                }
+            }
+            else
+            {
+                //se il file esiste elimina
+                if (File.Exists(flagNoConf))
+                {
+                    File.Delete(flagNoConf);
+                }
+            }
+        }
+
+        public bool getImpostazioneAutostart()
+        {
+            return File.Exists(flagAutostart);
+        }
+
+        public bool getImpostazioneNoConf()
+        {
+            return File.Exists(flagNoConf);
         }
     }
 }
