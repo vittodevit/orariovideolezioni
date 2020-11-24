@@ -8,11 +8,11 @@ Gestisce l'orario per le videolezioni ed apre automaticamente e non i link
 - Gestisce l'orario delle videolezioni con una comoda tabella
 - Gestisce anche le materie
 - Puoi decidere se aprire i link automaticamente o manualmente
+- Salvataggio automatico in %appdata% delle impostazioni.
 - È facile esportare ed importare il database
 
 ## Funzioni programmate per il futuro:
 - Possibilità di editare righe esistenti
-- Salvataggio automatico in %appdata% delle impostazioni.
 - Apertura on-the-fly di database
 - Possibilità di minimizzare in tray l'app
 
