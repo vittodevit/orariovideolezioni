@@ -22,6 +22,7 @@ namespace OrarioVideolezioni
         private int lastTickIdCalled = 0; //ultimo id chiamato dal tick
         private bool inswap = false; //indica se si stanno effettuando operazioni esterne sul database
         private bool ac = false; //indica se l'autostart dei link è attivo
+        private bool alreadyRefreshed = false; //indica se la tabella è stata già refreshata sul clock automatico
 
         public Form1()
         {
@@ -57,6 +58,7 @@ namespace OrarioVideolezioni
             AggiungiRiga formriga = new AggiungiRiga(this);
             formriga.ShowDialog();
             refresh();
+            tickEvent(true);
         }
 
         public void refresh()
@@ -154,6 +156,7 @@ namespace OrarioVideolezioni
             form.ShowDialog();
             //alla chiusura ricarica la tabella
             refresh();
+            tickEvent(true);
         }
 
         private void informazioniSullapplicazioneToolStripMenuItem_Click(object sender, EventArgs e)
@@ -215,6 +218,7 @@ namespace OrarioVideolezioni
                 db = new GestoreDatabase();
                 db.initDatabase();
                 refresh();
+                tickEvent(true);
             }
             //sblocca le operazioni sul db
             inswap = false;
@@ -225,7 +229,7 @@ namespace OrarioVideolezioni
             //ottieni link attivo dal db
             LinkAttivo la = db.trovaLinkAttivo();
             //se 'la' non è null (c'è un link candidato per l'apertura' passa alla funzione
-            if (la != null && la.Id != lastOpened)
+            if (la != null)
             {
                 apriLink(la);
             }
@@ -245,16 +249,24 @@ namespace OrarioVideolezioni
             if (la != null && la.Id != lastTickIdCalled)
             {
                 aggiornaRigaVerde(la.Id);
+                alreadyRefreshed = false;
             }
             if (la != null && force)
             {
                 //se il bool force è attivo, forza il refresh della riga verde in tabella nonostante sia già stata disegnata
                 aggiornaRigaVerde(la.Id);
+                alreadyRefreshed = false;
             }
             //apri link se c'è, se non è stato già aperto e se l'autostart è attivo
             if (la != null && la.Id != lastOpened && ac == true)
             {
                 apriLink(la);
+                alreadyRefreshed = false;
+            }
+            if(la == null && inswap == false && alreadyRefreshed == false)
+            {
+                refresh();
+                alreadyRefreshed = true;
             }
         }
 
