@@ -47,6 +47,8 @@ namespace OrarioVideolezioni
             refresh();//refresh tabella
             refresher.Start();
             tickEvent(); //fa partire manualmente il primo tick per le operazioni di refresh riga verde e autolink
+            confermaOpenCk.Checked = func.getImpostazioneNoConf();
+            autostart_check.Checked = func.getImpostazioneAutostart();
         }
 
         private void apriFinestraAggRiga(object sender, EventArgs e)
@@ -142,7 +144,7 @@ namespace OrarioVideolezioni
         private void ricaricabtn_click(object sender, EventArgs e)
         {
             refresh();
-            tickEvent();
+            tickEvent(true); //forziamo il reload della riga verde
         }
 
         private void gestisciMaterieToolStripMenuItem_Click(object sender, EventArgs e)
@@ -270,6 +272,7 @@ namespace OrarioVideolezioni
                 //disattiva autostart
                 ac = false;
             }
+            func.setImpostazioneAutostart(autostart_check.Checked);
         }
 
         private void refresher_Tick(object sender, EventArgs e)
@@ -303,6 +306,8 @@ namespace OrarioVideolezioni
                     {
                         tabella.Rows[riga.Index].Cells[i].Style.BackColor = Color.LimeGreen;
                     }
+                    //aggiorna focus su id nuova riga colorata
+                    tabella.CurrentCell = tabella.Rows[riga.Index].Cells[0];
                 }
             }
         }
@@ -311,6 +316,11 @@ namespace OrarioVideolezioni
         {
             //fai partire un tick per aggiornare la riga verde (il true forza l'aggiornamento)
             tickEvent(true);
+        }
+
+        private void confermaOpenCk_CheckedChanged(object sender, EventArgs e)
+        {
+            func.setImpostazioneNoConf(confermaOpenCk.Checked);
         }
     }
 }
