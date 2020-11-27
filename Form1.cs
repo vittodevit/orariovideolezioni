@@ -54,11 +54,14 @@ namespace OrarioVideolezioni
 
         private void apriFinestraAggRiga(object sender, EventArgs e)
         {
+            inswap = true;
             //apertura form di aggiunta riga, in seguito refresha la tabella alla chiusura
             AggiungiRiga formriga = new AggiungiRiga(this);
             formriga.ShowDialog();
+            inswap = false;
             refresh();
             tickEvent(true);
+            
         }
 
         public void refresh()
@@ -128,18 +131,21 @@ namespace OrarioVideolezioni
         {
             try
             {
+                inswap = true;
                 //prova ad individuare la riga selezionata
                 int indiceRiga = tabella.CurrentCell.RowIndex;
                 DataGridViewRow riga = tabella.Rows[indiceRiga];
                 //ottieni ID riga ed impartisci comando rimozione al database
                 int id = Int32.Parse(riga.Cells[0].Value.ToString());
                 db.rimuoviRiga(id);
+                inswap = false;
                 refresh();
             }catch (Exception)
             {
                 //nessuna riga selezionata, mostra box di errore
                 errore("Nessuna riga selezionata");
             }
+            
         }
 
         //chiama funzione di ricarica quando il pulsante ricarica è premuto
@@ -151,10 +157,12 @@ namespace OrarioVideolezioni
 
         private void gestisciMaterieToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            inswap = true;
             //apri form di gestione materie
             GestioneMaterie form = new GestioneMaterie();
             form.ShowDialog();
             //alla chiusura ricarica la tabella
+            inswap = false;
             refresh();
             tickEvent(true);
         }
@@ -217,11 +225,11 @@ namespace OrarioVideolezioni
                 //ricarica la classe, fai le prove di init e ricarica la tabella
                 db = new GestoreDatabase();
                 db.initDatabase();
+                //sblocca le operazioni sul db
+                inswap = false;
                 refresh();
                 tickEvent(true);
             }
-            //sblocca le operazioni sul db
-            inswap = false;
         }
 
         private void apriLink_btn_Click(object sender, EventArgs e)
