@@ -52,6 +52,7 @@
             this.salvadb = new System.Windows.Forms.SaveFileDialog();
             this.importadb = new System.Windows.Forms.OpenFileDialog();
             this.confermaOpenCk = new System.Windows.Forms.CheckBox();
+            this.iconatray = new System.Windows.Forms.NotifyIcon(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.tabella)).BeginInit();
             this.menuprincipale.SuspendLayout();
             this.SuspendLayout();
@@ -244,6 +245,12 @@
             this.confermaOpenCk.UseVisualStyleBackColor = true;
             this.confermaOpenCk.CheckedChanged += new System.EventHandler(this.confermaOpenCk_CheckedChanged);
             // 
+            // iconatray
+            // 
+            this.iconatray.Icon = ((System.Drawing.Icon)(resources.GetObject("iconatray.Icon")));
+            this.iconatray.Text = "Orario Videolezioni";
+            this.iconatray.Visible = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -293,6 +300,7 @@
         private System.Windows.Forms.CheckBox confermaOpenCk;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.NotifyIcon iconatray;
     }
 }
 
