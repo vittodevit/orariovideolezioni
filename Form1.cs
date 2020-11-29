@@ -110,6 +110,8 @@ namespace OrarioVideolezioni
             {
                 //assume che la risposta sia di SI (checkbox attivata)
                 res = DialogResult.Yes;
+                //mostra la notifica di apertura in tray
+                mostraMessaggio("Link attivo adesso", "Aprendo il link di " + la.NomeMat, 3);
             }
             if(res == DialogResult.Yes)
             {
@@ -341,6 +343,24 @@ namespace OrarioVideolezioni
         private void confermaOpenCk_CheckedChanged(object sender, EventArgs e)
         {
             func.setImpostazioneNoConf(confermaOpenCk.Checked);
+        }
+
+        private void mostraMessaggio(String title, String text, int timeout)
+        {
+            iconatray.BalloonTipTitle = title;
+            iconatray.BalloonTipText = text;
+            iconatray.ShowBalloonTip(timeout);
+        }
+
+        private void nascondiFinestra_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            mostraMessaggio("Ridotto ad icona", "Cliccami per riaprire la finestra dell'applicazione!", 3);
+        }
+
+        private void iconatray_MouseClick(object sender, MouseEventArgs e)
+        {
+            this.Show();
         }
     }
 }

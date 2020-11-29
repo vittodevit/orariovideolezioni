@@ -53,6 +53,7 @@
             this.importadb = new System.Windows.Forms.OpenFileDialog();
             this.confermaOpenCk = new System.Windows.Forms.CheckBox();
             this.iconatray = new System.Windows.Forms.NotifyIcon(this.components);
+            this.nascondiFinestra = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tabella)).BeginInit();
             this.menuprincipale.SuspendLayout();
             this.SuspendLayout();
@@ -247,15 +248,28 @@
             // 
             // iconatray
             // 
+            this.iconatray.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.iconatray.Icon = ((System.Drawing.Icon)(resources.GetObject("iconatray.Icon")));
             this.iconatray.Text = "Orario Videolezioni";
             this.iconatray.Visible = true;
+            this.iconatray.MouseClick += new System.Windows.Forms.MouseEventHandler(this.iconatray_MouseClick);
+            // 
+            // nascondiFinestra
+            // 
+            this.nascondiFinestra.Location = new System.Drawing.Point(758, 549);
+            this.nascondiFinestra.Name = "nascondiFinestra";
+            this.nascondiFinestra.Size = new System.Drawing.Size(106, 23);
+            this.nascondiFinestra.TabIndex = 10;
+            this.nascondiFinestra.Text = "RIDUCI IN TRAY";
+            this.nascondiFinestra.UseVisualStyleBackColor = true;
+            this.nascondiFinestra.Click += new System.EventHandler(this.nascondiFinestra_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(958, 582);
+            this.Controls.Add(this.nascondiFinestra);
             this.Controls.Add(this.confermaOpenCk);
             this.Controls.Add(this.ricaricabtn);
             this.Controls.Add(this.autostart_check);
@@ -301,6 +315,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.NotifyIcon iconatray;
+        private System.Windows.Forms.Button nascondiFinestra;
     }
 }
 
