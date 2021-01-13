@@ -11,9 +11,9 @@ Gestisce l'orario per le videolezioni ed apre automaticamente e non i link
 - Salvataggio automatico in %appdata% delle impostazioni.
 - È facile esportare ed importare il database
 - Possibilità di minimizzare in tray l'app
+- Possibilità di editare righe esistenti
 
 ## Funzioni programmate per il futuro:
-- Possibilità di editare righe esistenti
 - Apertura on-the-fly di database
 
 ## Come compilare:
