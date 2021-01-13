@@ -167,6 +167,32 @@ namespace OrarioVideolezioni
             return true;
         }
 
+        //funzione di modifica riga all'orario
+        public bool modificaRigaMatiera(string giorno, int inizio, int fine, string materia, string link)
+        {
+            //crea comando
+            var comandoInserisci = database.CreateCommand();
+            comandoInserisci.CommandText =
+                "UPDATE orario SET GiornoSettimana = $giorno, IntervalloInizio = $inizio, IntervalloFine = $fine, Materia = $materia, Link = $link);";
+            //binda i parametri
+            comandoInserisci.Parameters.AddWithValue("$giorno", giorno);
+            comandoInserisci.Parameters.AddWithValue("$inizio", inizio);
+            comandoInserisci.Parameters.AddWithValue("$fine", fine);
+            comandoInserisci.Parameters.AddWithValue("$materia", materia);
+            comandoInserisci.Parameters.AddWithValue("$link", link);
+            try
+            {
+                database.Open();
+                comandoInserisci.ExecuteNonQuery();
+                database.Close();
+            }
+            catch (SQLiteException)
+            {
+                return false;
+            }
+            return true;
+        }
+
         //aggiunta riga alla tabella delle materie
         public bool aggRigaMateria(string nomemat, string nomeprof)
         {
@@ -389,6 +415,26 @@ namespace OrarioVideolezioni
             //link trovato, ritorna
             database.Close();
             return la;
+        }
+
+        //aggiorna riga materia
+        public bool aggiornaRigaMateria(int id, string nuovonome)
+        {
+            var comandoAggiornaMat = database.CreateCommand();
+            comandoAggiornaMat.CommandText = "UPDATE materie SET NomeProf = $nuovonome WHERE Id = $id";
+            comandoAggiornaMat.Parameters.AddWithValue("$nuovonome", nuovonome);
+            comandoAggiornaMat.Parameters.AddWithValue("$id", id);
+            try
+            {
+                database.Open();
+                comandoAggiornaMat.ExecuteNonQuery();
+                database.Close();
+            }
+            catch (SQLiteException)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

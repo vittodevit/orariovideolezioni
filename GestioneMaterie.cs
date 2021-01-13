@@ -29,7 +29,7 @@ namespace OrarioVideolezioni
             refresh(); //all'apertura della finestra carica la tabella
         }
 
-        private void refresh()
+        public void refresh()
         {
             //ottieni lista materie dal db e ridimensiona in auto le colonne
             tabellamaterie.DataSource = db.getListaMaterie();
@@ -84,6 +84,27 @@ namespace OrarioVideolezioni
         {
             db.forceClose(); //libera tutte le risorse per passare il libero controllo del file db al form padre
             this.Close(); //chiudi finestra
+        }
+
+        private void modmatclick(object sender, EventArgs e)
+        {
+            try
+            {
+                //prova ad individuare la riga selezionata
+                int indiceRiga = tabellamaterie.CurrentCell.RowIndex;
+                DataGridViewRow riga = tabellamaterie.Rows[indiceRiga];
+                //ottieni ID riga ed impartisci comando rimozione al database
+                int id = Int32.Parse(riga.Cells[0].Value.ToString());
+                //CHIAMATA AL FORM DI MODIFICA (con id materia da modificare)
+                ModMat mod = new ModMat(id);
+                mod.ShowDialog();
+                refresh();
+            }
+            catch (Exception)
+            {
+                //nessuna riga selezionata, mostra box di errore
+                errore("Nessuna riga selezionata");
+            }
         }
     }
 }
