@@ -54,6 +54,7 @@
             this.confermaOpenCk = new System.Windows.Forms.CheckBox();
             this.iconatray = new System.Windows.Forms.NotifyIcon(this.components);
             this.nascondiFinestra = new System.Windows.Forms.Button();
+            this.modificaRigaSelezionataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.tabella)).BeginInit();
             this.menuprincipale.SuspendLayout();
             this.SuspendLayout();
@@ -156,6 +157,7 @@
             // 
             this.orarioToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aggiungiRigaToolStripMenuItem,
+            this.modificaRigaSelezionataToolStripMenuItem,
             this.rimuoviRigaSelezToolStripMenuItem,
             this.toolStripSeparator2,
             this.gestisciMaterieToolStripMenuItem});
@@ -166,26 +168,26 @@
             // aggiungiRigaToolStripMenuItem
             // 
             this.aggiungiRigaToolStripMenuItem.Name = "aggiungiRigaToolStripMenuItem";
-            this.aggiungiRigaToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.aggiungiRigaToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.aggiungiRigaToolStripMenuItem.Text = "Aggiungi Riga";
             this.aggiungiRigaToolStripMenuItem.Click += new System.EventHandler(this.apriFinestraAggRiga);
             // 
             // rimuoviRigaSelezToolStripMenuItem
             // 
             this.rimuoviRigaSelezToolStripMenuItem.Name = "rimuoviRigaSelezToolStripMenuItem";
-            this.rimuoviRigaSelezToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.rimuoviRigaSelezToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.rimuoviRigaSelezToolStripMenuItem.Text = "Rimuovi Riga Selezionata";
             this.rimuoviRigaSelezToolStripMenuItem.Click += new System.EventHandler(this.rimuoviRigaSelezionata_click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(203, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(206, 6);
             // 
             // gestisciMaterieToolStripMenuItem
             // 
             this.gestisciMaterieToolStripMenuItem.Name = "gestisciMaterieToolStripMenuItem";
-            this.gestisciMaterieToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.gestisciMaterieToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.gestisciMaterieToolStripMenuItem.Text = "Gestisci Materie";
             this.gestisciMaterieToolStripMenuItem.Click += new System.EventHandler(this.gestisciMaterieToolStripMenuItem_Click);
             // 
@@ -264,6 +266,13 @@
             this.nascondiFinestra.UseVisualStyleBackColor = true;
             this.nascondiFinestra.Click += new System.EventHandler(this.nascondiFinestra_Click);
             // 
+            // modificaRigaSelezionataToolStripMenuItem
+            // 
+            this.modificaRigaSelezionataToolStripMenuItem.Name = "modificaRigaSelezionataToolStripMenuItem";
+            this.modificaRigaSelezionataToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.modificaRigaSelezionataToolStripMenuItem.Text = "Modifica Riga Selezionata";
+            this.modificaRigaSelezionataToolStripMenuItem.Click += new System.EventHandler(this.modificaRigaSelezionataToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -316,6 +325,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.NotifyIcon iconatray;
         private System.Windows.Forms.Button nascondiFinestra;
+        private System.Windows.Forms.ToolStripMenuItem modificaRigaSelezionataToolStripMenuItem;
     }
 }
 

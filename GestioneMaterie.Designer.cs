@@ -38,6 +38,7 @@
             this.remmat_btn = new System.Windows.Forms.Button();
             this.tabellamaterie = new System.Windows.Forms.DataGridView();
             this.escibtn = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tabellamaterie)).BeginInit();
             this.SuspendLayout();
@@ -100,7 +101,7 @@
             // 
             // remmat_btn
             // 
-            this.remmat_btn.Location = new System.Drawing.Point(342, 148);
+            this.remmat_btn.Location = new System.Drawing.Point(342, 177);
             this.remmat_btn.Name = "remmat_btn";
             this.remmat_btn.Size = new System.Drawing.Size(147, 23);
             this.remmat_btn.TabIndex = 7;
@@ -129,11 +130,21 @@
             this.escibtn.UseVisualStyleBackColor = true;
             this.escibtn.Click += new System.EventHandler(this.esci);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(342, 148);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(147, 23);
+            this.button1.TabIndex = 10;
+            this.button1.Text = "Modifica materia selez.";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // GestioneMaterie
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(507, 269);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.escibtn);
             this.Controls.Add(this.tabellamaterie);
             this.Controls.Add(this.remmat_btn);
@@ -162,5 +173,6 @@
         private System.Windows.Forms.Button remmat_btn;
         private System.Windows.Forms.DataGridView tabellamaterie;
         private System.Windows.Forms.Button escibtn;
+        private System.Windows.Forms.Button button1;
     }
 }

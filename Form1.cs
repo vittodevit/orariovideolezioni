@@ -362,5 +362,28 @@ namespace OrarioVideolezioni
         {
             this.Show();
         }
+
+        private void modificaRigaSelezionataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                inswap = true;
+                //prova ad individuare la riga selezionata
+                int indiceRiga = tabella.CurrentCell.RowIndex;
+                DataGridViewRow riga = tabella.Rows[indiceRiga];
+                //ottieni ID riga ed impartisci comando rimozione al database
+                int id = Int32.Parse(riga.Cells[0].Value.ToString());
+                
+                //INSERISCI QUA CHIAMATA AL FORM DI MODIFICA
+
+                inswap = false;
+                refresh();
+            }
+            catch (Exception)
+            {
+                //nessuna riga selezionata, mostra box di errore
+                errore("Nessuna riga selezionata");
+            }
+        }
     }
 }
