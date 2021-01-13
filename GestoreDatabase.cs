@@ -167,19 +167,49 @@ namespace OrarioVideolezioni
             return true;
         }
 
+        //ottieni riga specifica orario
+        public RigaOrario getRigaOrario(int id)
+        {
+            //creo la query di selezione
+            var cmd = database.CreateCommand();
+            cmd.CommandText = "SELECT * FROM orario WHERE Id = $id;";
+            cmd.Parameters.AddWithValue("$id", id);
+            RigaOrario ro = null;
+
+                database.Open();
+                //creo la variabile leggi come lettore risposte SQL
+                using (var leggi = cmd.ExecuteReader())
+                {
+                    leggi.Read();
+                    //inserisco dati nella riga
+                    ro = new RigaOrario(
+                        leggi.GetString(1),
+                        leggi.GetInt32(2),
+                        leggi.GetInt32(3),
+                        leggi.GetString(4),
+                        leggi.GetString(5)
+                    );
+                }
+
+            database.Close();
+            //ritorno la riga finita
+            return ro;
+        }
+
         //funzione di modifica riga all'orario
-        public bool modificaRigaMatiera(string giorno, int inizio, int fine, string materia, string link)
+        public bool modificaRigaOrario(int id, string giorno, int inizio, int fine, string materia, string link)
         {
             //crea comando
             var comandoInserisci = database.CreateCommand();
             comandoInserisci.CommandText =
-                "UPDATE orario SET GiornoSettimana = $giorno, IntervalloInizio = $inizio, IntervalloFine = $fine, Materia = $materia, Link = $link);";
+                "UPDATE orario SET GiornoSettimana = $giorno, IntervalloInizio = $inizio, IntervalloFine = $fine, Materia = $materia, Link = $link WHERE Id = $id;";
             //binda i parametri
             comandoInserisci.Parameters.AddWithValue("$giorno", giorno);
             comandoInserisci.Parameters.AddWithValue("$inizio", inizio);
             comandoInserisci.Parameters.AddWithValue("$fine", fine);
             comandoInserisci.Parameters.AddWithValue("$materia", materia);
             comandoInserisci.Parameters.AddWithValue("$link", link);
+            comandoInserisci.Parameters.AddWithValue("$id", id);
             try
             {
                 database.Open();

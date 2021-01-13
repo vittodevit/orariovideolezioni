@@ -71,6 +71,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ModificaRigaOrario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModificaRigaOrario.Designer.cs">
+      <DependentUpon>ModificaRigaOrario.cs</DependentUpon>
+    </Compile>
     <Compile Include="AggiungiRiga.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,6 +103,7 @@
       <DependentUpon>infoapp.cs</DependentUpon>
     </Compile>
     <Compile Include="LinkAttivo.cs" />
+    <Compile Include="RigaOrario.cs" />
     <Compile Include="ModMat.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,6 +113,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Funzioni.cs" />
+    <EmbeddedResource Include="ModificaRigaOrario.resx">
+      <DependentUpon>ModificaRigaOrario.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AggiungiRiga.resx">
       <DependentUpon>AggiungiRiga.cs</DependentUpon>
     </EmbeddedResource>

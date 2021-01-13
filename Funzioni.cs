@@ -189,6 +189,21 @@ namespace OrarioVideolezioni
             return s;
         }
 
+        //converte il valore in secondi in DateTime
+        public DateTime secondiADT(int secondi)
+        {
+            int ore, minuti;
+            string oreS, minutiS;
+            minuti = secondi / 60; //calcola i minuti rimanenti
+            ore = minuti / 60; //calcola le ore rimanenti
+            minuti = minuti % 60; //assegna a minuti il modulo (resto divisione)...
+            //...di se stesso per lasciare solo i minuti rimanenti
+
+            //converti a DateTime (imposto la data di oggi tanto useremo solo i parametri del time)
+            DateTime time = new DateTime(2021, 01, 13, ore, minuti, 0);
+            return time;
+        }
+
         public void setImpostazioneAutostart(bool b)
         {
             if (b)

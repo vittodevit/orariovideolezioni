@@ -142,7 +142,9 @@ namespace OrarioVideolezioni
                 db.rimuoviRiga(id);
                 inswap = false;
                 refresh();
-            }catch (Exception)
+                tickEvent(true); //forziamo il reload della riga verde
+            }
+            catch (Exception)
             {
                 //nessuna riga selezionata, mostra box di errore
                 errore("Nessuna riga selezionata");
@@ -367,22 +369,22 @@ namespace OrarioVideolezioni
         {
             try
             {
-                inswap = true;
                 //prova ad individuare la riga selezionata
                 int indiceRiga = tabella.CurrentCell.RowIndex;
                 DataGridViewRow riga = tabella.Rows[indiceRiga];
                 //ottieni ID riga ed impartisci comando rimozione al database
                 int id = Int32.Parse(riga.Cells[0].Value.ToString());
-                
-                //INSERISCI QUA CHIAMATA AL FORM DI MODIFICA
-
+                inswap = true;
+                ModificaRigaOrario m = new ModificaRigaOrario(id);
+                m.ShowDialog();
                 inswap = false;
                 refresh();
+                tickEvent(true); //forziamo il reload della riga verde
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 //nessuna riga selezionata, mostra box di errore
-                errore("Nessuna riga selezionata");
+                errore("Nessuna riga selezionata: " + ex.Message);
             }
         }
     }
